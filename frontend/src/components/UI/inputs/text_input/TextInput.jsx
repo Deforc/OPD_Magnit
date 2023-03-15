@@ -3,9 +3,8 @@ import React from 'react';
 const TextInput = (props) => {
     return (
         <div>
-            <input type="text"></input>
+            <input type="text" placeholder={props.example}></input>
             <label>{props.label}</label>
-            <label>{props.example}</label>
             <button></button>
         </div>
     );
