@@ -13,10 +13,9 @@ const TextInput = (props) => {
 
     return (
         <div>
-            <input type="text" value={value} onChange={handleChange}></input>
+            <input type="text" placeholder={props.example} value={value} onChange={handleChange}></input>
             <label>{props.label}</label>
-            {value === "" ? <label>{props.example}</label> :
-                            <button onClick={clearValue}></button>}
+            {(value !== "") && <button onClick={clearValue}></button>}
         </div>
     );
 };
