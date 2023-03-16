@@ -6,6 +6,7 @@ const PasswordInput = (props) => {
 
     function handleChange(event) {
         setValue(event.target.value);
+        props.get_value(event.target.value);
     }
 
     function changeVisible() {

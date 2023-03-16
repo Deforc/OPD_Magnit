@@ -2,7 +2,7 @@ import React from 'react';
 
 const MajorButton = (props) => {
     return (
-        <button>
+        <button onClick={props.action}>
             {props.children}
         </button>
     );

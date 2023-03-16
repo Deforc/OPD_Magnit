@@ -5,10 +5,12 @@ const TextInput = (props) => {
 
     function handleChange(event) {
         setValue(event.target.value);
+        props.get_value(event.target.value);
     }
 
     function clearValue() {
         setValue("");
+        props.get_value("");
     }
 
     return (
