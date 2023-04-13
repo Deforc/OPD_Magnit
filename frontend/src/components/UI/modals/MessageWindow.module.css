@@ -1,0 +1,42 @@
+.messageWindow {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: none;
+}
+
+.messageWindow.active {
+    display: flex;
+    justify-content: center;
+    top: 12%;
+    height: min-content;
+}
+.messageWindowContent {
+    max-width: 600px;
+    min-width: 500px;
+    border-radius: 10px;
+    background: rgba(239, 122, 118, 0.63);
+    border: solid 2px #c4403f;
+    font-family: 'Golos Text', sans-serif;
+    color: #c42b2d;
+    font-size: 15px;
+    display: block;
+}
+
+
+.messageWindowLabel {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 0;
+    margin-left: 15px;
+    font-weight: 600;
+}
+
+.messageWindowText {
+    margin-left: 15px;
+    margin-top: 10px;
+    margin-right: 15px;
+    font-weight: 400;
+}
