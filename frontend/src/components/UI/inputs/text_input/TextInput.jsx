@@ -1,12 +1,23 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 const TextInput = (props) => {
+    const [value, setValue] = useState("")
+
+    function handleChange(event) {
+        setValue(event.target.value);
+        props.get_value(event.target.value);
+    }
+
+    function clearValue() {
+        setValue("");
+        props.get_value("");
+    }
+
     return (
         <div>
-            <input type="text"></input>
+            <input type="text" placeholder={props.example} value={value} onChange={handleChange}></input>
             <label>{props.label}</label>
-            <label>{props.example}</label>
-            <button></button>
+            {(value !== "") && <button onClick={clearValue}></button>}
         </div>
     );
 };

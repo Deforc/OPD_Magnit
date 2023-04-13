@@ -1,12 +1,24 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 const PasswordInput = (props) => {
+    const [value, setValue] = useState("");
+    const [isVisible, toggleVisible] = useState(false);
+
+    function handleChange(event) {
+        setValue(event.target.value);
+        props.get_value(event.target.value);
+    }
+
+    function changeVisible() {
+        toggleVisible(!isVisible);
+    }
+
     return (
         <div>
-            <input type="password"></input>
+            <input type={isVisible ? "text" : "password"} placeholder={props.example}
+                   value={value} onChange={handleChange}></input>
             <label>{props.label}</label>
-            <label>{props.example}</label>
-            <button></button>
+            {(value !== "") && <button onClick={changeVisible}></button>}
         </div>
     );
 };
