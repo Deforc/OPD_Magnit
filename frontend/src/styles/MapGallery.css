@@ -1,0 +1,159 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #f1f1f1;
+    height: 100%;
+}
+
+html {
+    height: 100%;
+}
+
+.map-gallery-container {
+    max-width: 900px;
+    height: 100%;
+    background: white;
+    margin: 0 auto;
+    display: block;
+    min-height: 100vh;
+    box-shadow: -2px 0 2px rgba(0,0,0,0.15),
+    2px 0 2px rgba(0,0,0,0.15);
+}
+
+.map-gallery-container h1 {
+    margin-top: 20px;
+    margin-left: 40px;
+    margin-right: auto;
+    color: #fd0600;
+    font-family: 'Golos Text', sans-serif;
+    display: flex;
+}
+
+.map-options {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    display: block;
+    border-bottom: solid 4px #fd0600;
+    margin-left: 40px;
+    margin-right: 40px;
+    margin-bottom: 20px;
+}
+
+.map-options .textInput{
+    width: auto;
+    display: flex;
+}
+
+.map-filter-list {
+    display: flex;
+}
+
+.map-info {
+    display: block;
+    margin-right: 40px;
+    margin-left: 40px;
+}
+
+.new-map-button {
+    display: flex;
+    width: max-content;
+    margin-right: 40px;
+    margin-left: auto;
+    align-items: center;
+}
+
+.new-map-button:hover .new-map-label{
+    color: #333333;
+    transition: 0.5s;
+}
+
+.new-map-label {
+    height: 100%;
+    width: max-content;
+    display: flex;
+    align-items: center;
+    margin-left: 5px;
+    font-family: 'Golos Text', sans-serif;
+    font-size: 16px;
+    font-weight: 450;
+    color: gray;
+}
+
+.map-info-content {
+    margin: 10px 40px;
+    padding-left: 5px;
+    display: flex;
+    justify-content: center;
+}
+
+.map-info-label {
+    color: gray;
+    font-family: 'Golos Text', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    display: inline;
+    width: 100%;
+    margin-right: auto;
+}
+
+.map-info-buttons {
+    display: flex;
+}
+
+.map-gallery-footer {
+    margin-top: 10px;
+    width: 100%;
+    height: 10px;
+    background: transparent;
+}
+
+.city-filter{
+    width: 100%;
+}
+
+.street-filter {
+    width: 100%;
+}
+
+.house-filter {
+    width: 100%;
+    max-width: 100px;
+}
+
+.building-filter {
+    width: 100%;
+    max-width: 100px;
+}
+
+.floor-filter {
+    width: 100%;
+    max-width: 100px;
+}
+
+.help-button {
+    margin-top: auto;
+    margin-left: auto;
+    margin-right: 40px;
+}
+
+.help-button:hover .help-icon{
+    transform: scale(1.1);
+}
+
+.help-button:active .help-icon{
+    transition: 0.2s;
+    color: #b0b0b0;
+}
+
+.help-button:hover button{
+    background: white;
+}
+
+.help-icon {
+    color: gray;
+    width: 20px;
+    height: 20px;
+}

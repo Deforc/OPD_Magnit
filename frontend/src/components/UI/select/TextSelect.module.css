@@ -1,0 +1,49 @@
+.textSelect {
+    border: 2px gray solid;
+    border-radius: 10px;
+    display: block;
+    margin: 5px;
+    height: max-content;
+    padding-left: 8px;
+    padding-right: 8px;
+    max-width:100%;
+}
+
+.textSelect label {
+    overflow: hidden;
+    white-space: nowrap;
+    display: flex;
+    margin-top: 2px;
+    font-size: 10px;
+    font-family: 'Golos Text', sans-serif;
+    font-weight: 600;
+    color: gray;
+    user-select: none;
+    pointer-events: none;
+}
+
+.textSelect select {
+    display: flex;
+    width: 100%;
+    margin: 2px 0 2px 0;
+    color: gray;
+    font-size: 16px;
+    outline: none;
+    border: none;
+    background: transparent;
+    font-family: 'Golos Text', sans-serif;
+    font-weight: 450;
+    height: max-content;
+}
+
+.textSelect select::selection {
+    background: white;
+}
+
+.focus {
+    border: 2px #fd0600 solid;
+}
+
+.focus label{
+    color: #fd0600;
+}

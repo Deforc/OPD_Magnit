@@ -1,0 +1,44 @@
+.framelessButton {
+    margin: 10px;
+    min-width: 60px;
+    width: min-content;
+    max-width: 120px;
+    height: 60px;
+    background: transparent;
+    display: block;
+    border: none;
+    outline: none;
+}
+
+.framelessButtonLabel {
+    cursor: pointer;
+    width: 100%;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+    color: white;
+    font-family: 'Golos Text', sans-serif;
+    font-weight: 600;
+}
+
+.framelessButtonIcon {
+    cursor: pointer;
+    height: 32px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    color: white;
+}
+
+.framelessButton:hover .framelessButtonIcon{
+    font-size: 35px;
+}
+
+.framelessButtonIcon.active {
+    font-size: 35px;
+    color: white;
+}

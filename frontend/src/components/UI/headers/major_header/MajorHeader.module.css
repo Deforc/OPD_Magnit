@@ -1,0 +1,80 @@
+.majorHeader {
+    background: #fd0600;
+    width: 100%;
+    height: 80px;
+    display: inline-flex;
+    align-items: center;
+    box-shadow: -2px 0 2px rgba(0,0,0,0.15),
+                2px 0 2px rgba(0,0,0,0.15),
+                0 2px 2px rgba(0,0,0,0.15);
+}
+
+.logo {
+    margin: 15px auto 15px 15px;
+    height: 50%;
+}
+
+.icon {
+    width: 41px;
+    height: 41px;
+}
+
+.newUserModal {
+    display: block;
+    position: absolute;
+    width: min-content;
+    top: 80px;
+    right: 0;
+}
+
+.newUser {
+    position: relative;
+}
+
+.editUser {
+    position: relative;
+}
+
+.editUserModal {
+    display: block;
+    position: absolute;
+    width: min-content;
+    top: 80px;
+    right: 0;
+
+}
+
+.modalHeader {
+    margin-left: 8px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.modalHeader label {
+    width: 100%;
+    margin-right: auto;
+}
+
+.modalLabel {
+    font-size: 18px;
+    font-weight: 600;
+    color: #fd0600;
+    font-family: 'Golos Text', sans-serif;
+    margin-right: auto;
+}
+
+.modalButtons {
+    display: inline-flex;
+}
+
+.modalStateBlock {
+    margin-right: 20px;
+    display: block;
+}
+
+.exitIcon {
+    stroke-width: 0.8ex;
+    outline: none;
+    border: none;
+}
