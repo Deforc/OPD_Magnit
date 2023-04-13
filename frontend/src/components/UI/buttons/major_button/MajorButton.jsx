@@ -1,8 +1,9 @@
 import React from 'react';
+import classes from "./MajorButton.module.css";
 
 const MajorButton = (props) => {
     return (
-        <button onClick={props.action}>
+        <button className={classes.majorButton} onClick={props.action}>
             {props.children}
         </button>
     );
