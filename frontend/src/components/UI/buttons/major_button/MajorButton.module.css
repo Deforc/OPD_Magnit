@@ -1,0 +1,14 @@
+.majorButton {
+    background-color: #fd0600;
+    color: white;
+    font-family: 'Golos Text', sans-serif;
+    font-weight: 600;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
