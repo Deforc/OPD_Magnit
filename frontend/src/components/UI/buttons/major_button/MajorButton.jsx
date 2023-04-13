@@ -3,7 +3,7 @@ import classes from "./MajorButton.module.css";
 
 const MajorButton = (props) => {
     return (
-        <button className={classes.majorButton} onClick={props.action}>
+        <button onClick={props.action} className={classes.majorButton}>
             {props.children}
         </button>
     );
