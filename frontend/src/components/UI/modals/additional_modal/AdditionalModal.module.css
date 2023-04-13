@@ -1,0 +1,23 @@
+.additionalModal {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: none;
+}
+
+.additionalModalContent {
+    padding: 10px;
+    background: white;
+    border-radius: 0 0 16px 16px;
+    min-width: 250px;
+    box-shadow: -2px 1px 2px rgba(0,0,0,0.15),
+    2px 1px 2px rgba(0,0,0,0.15);
+}
+
+.additionalModal.active {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
