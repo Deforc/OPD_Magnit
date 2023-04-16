@@ -1,0 +1,15 @@
+.markerModule {
+    border-radius: 5px;
+    background: #f1f1f1;
+    width: max-content;
+    padding: 5px;
+    font-family: 'Golos Text', sans-serif;
+    font-weight: 600;
+    color: gray;
+    position: relative;
+    box-shadow: 0 0 2px rgba(0,0,0,0.4);
+}
+
+.markerModule p {
+    font-weight: 450;
+}
