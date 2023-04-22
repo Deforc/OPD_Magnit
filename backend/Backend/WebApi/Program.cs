@@ -86,7 +86,7 @@ namespace WebApi1
                     o.OAuthScopeSeparator(" ");
                     o.OAuthClientId(ClientId);
                     o.OAuthClientSecret(ClientSecret);
-                    o.OAuthScopes("Admin");
+                    o.OAuthScopes("User");
                     o.OAuthAppName("SwaggerIU");
                 });
             }
