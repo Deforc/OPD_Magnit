@@ -5,7 +5,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
-using WebApi1.Identity;
 
 namespace WebApi1.Controllers
 {
@@ -26,7 +25,7 @@ namespace WebApi1.Controllers
         /// <param name="clientSecret"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Authorize([FromForm(Name = "grant_type")] string grantType, [FromForm] string username, [FromForm] string password, [FromForm] string scope, [FromForm] string? clientId = default, [FromForm] string? clientSecret = default)
+        public async Task<IActionResult> Authorize([FromForm(Name = "grant_type")] string grantType, [FromForm] string username, [FromForm] string password, [FromForm] string? scope = null, [FromForm(Name = "client_id")] string? clientId = default, [FromForm(Name = "client_secret")] string? clientSecret = default)
         {
             if (Request.Headers.TryGetValue("Authorization", out var authorization))
             {
@@ -44,14 +43,13 @@ namespace WebApi1.Controllers
                 return Unauthorized("No authorization header");
 
 
-            var manager = HttpContext.RequestServices.GetRequiredService<UserManager<User>>();
+            var manager = HttpContext.RequestServices.GetRequiredService<UserManager<IdentityUser>>();
             var user = await manager.FindByNameAsync(username);
             if (
                 user == null
                 || !await manager.CheckPasswordAsync(user, password)
                 )
                 return BadRequest(new { errorText = "Invalid username or password." });
-
 
             var credentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(clientSecret)), SecurityAlgorithms.HmacSha256);
             var jwtHeader = new JwtHeader(credentials);
@@ -60,8 +58,19 @@ namespace WebApi1.Controllers
                             new(ClaimTypes.NameIdentifier, user.Id.ToString()),
                             new(ClaimTypes.Name, username),
                         };
-            if (user.Scope.Contains(scope)/*!string.IsNullOrWhiteSpace(scope)*/)
-                claims.Add(new(ClaimTypes.Role, scope));
+            if (!string.IsNullOrWhiteSpace(scope))
+            {
+                var scopes = scope.Split(new[] { ' ' }, 2, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+                for (int i = 0; i < scopes.Length; i++)
+                {
+                    var s = scopes[i];
+                    if (await manager.IsInRoleAsync(user, s))
+                        claims.Add(new(ClaimTypes.Role, s));
+                    else
+                        return Unauthorized("Invalid scope");
+
+                }
+            }
             var token = new JwtSecurityToken(jwtHeader, new JwtPayload(issuer: Program.Issuer,
                                                                        audience: clientId,
                                                                        notBefore: DateTime.UtcNow,
