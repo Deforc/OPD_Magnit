@@ -13,7 +13,7 @@ namespace WebApi1.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    [ApiExplorerSettings(IgnoreApi = true)]
+    //[ApiExplorerSettings(IgnoreApi = true)]
     public class TokenController : ControllerBase
     {
         /// <summary/>
