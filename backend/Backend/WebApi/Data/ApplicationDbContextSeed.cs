@@ -78,18 +78,18 @@ namespace WebApi1.Data
 
                 //задаю нового админа
                 
-                user = catalogContext.Users.FirstOrDefault(u => u.UserName == "obama barack");//это именно имя пользователя
-                if (user is null)
-                {
-                    user = catalogContext.Users.Add(new()
-                    {
-                        Id = "obama",
-                        UserName = "obama",
-                        NormalizedUserName = "obama",
-                    }).Entity;
-                    user.PasswordHash = hasher.HashPassword(user, "obama barack");
-                    catalogContext.SaveChanges();
-                }
+                //user = catalogContext.Users.FirstOrDefault(u => u.UserName == "obama barack");//это именно имя пользователя
+                //if (user is null)
+                //{
+                //    user = catalogContext.Users.Add(new()
+                //    {
+                //        Id = "obama",
+                //        UserName = "obama",
+                //        NormalizedUserName = "obama",
+                //    }).Entity;
+                //    user.PasswordHash = hasher.HashPassword(user, "obama barack");
+                //    catalogContext.SaveChanges();
+                //}
                 //вот эта штука отвечает за присваивание роли, а так как у нас роль одна, то это админ
                 //!catalogContext.UserRoles.Any() && эта штука нужна чтобы вставить в условие
                 if (!catalogContext.UserRoles.Any() && user != null && role != null)
@@ -99,6 +99,20 @@ namespace WebApi1.Data
                         RoleId = role.Id,
                         UserId = user.Id,
                     });
+                    catalogContext.SaveChanges();
+                }
+
+                var map = catalogContext.Maps.FirstOrDefault(m => m.Id == 1);
+                if (map is null)
+                {
+                    map = catalogContext.Maps.Add(new()
+                    {
+                        City = "ПохуйГород",
+                        Street = "Улица поебать",
+                        House = "Дом колотушкина",
+                        IsMap = true,
+                        Json = "{\"key\":\"value\"}"
+                    }).Entity;
                     catalogContext.SaveChanges();
                 }
                 
