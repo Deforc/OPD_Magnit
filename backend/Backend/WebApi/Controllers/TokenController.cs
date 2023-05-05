@@ -27,6 +27,7 @@ namespace WebApi1.Controllers
         [HttpPost]
         public async Task<IActionResult> Authorize([FromForm(Name = "grant_type")] string grantType, [FromForm] string username, [FromForm] string password, [FromForm] string? scope = null, [FromForm(Name = "client_id")] string? clientId = default, [FromForm(Name = "client_secret")] string? clientSecret = default)
         {
+            Console.WriteLine(grantType);
             if (Request.Headers.TryGetValue("Authorization", out var authorization))
             {
                 var authHeader = AuthenticationHeaderValue.Parse(authorization);

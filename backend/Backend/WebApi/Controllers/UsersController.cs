@@ -85,12 +85,8 @@ public class UsersController : Controller
     public IActionResult Post(string? firstname, string? lastname, string? password, string? Role, string? id)
     {
         var role = _context.Roles.FirstOrDefault(u => u.Id == null);
-        if (Role != null)
-        {
-            role = _context.Roles.FirstOrDefault(u => u.Id == Role);
-            _context.SaveChanges();
-        }
-
+        if (Role == null) return BadRequest(new { Message = "Не указана роль пользователя" });
+        role = _context.Roles.FirstOrDefault(u => u.Id == Role);
         _context.SaveChanges();
 
 

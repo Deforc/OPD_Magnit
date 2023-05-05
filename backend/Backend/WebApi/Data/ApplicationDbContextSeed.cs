@@ -10,7 +10,7 @@ namespace WebApi1.Data
             var retryForAvailability = retry;
             try
             {
-                if (catalogContext.Database.IsSqlServer())
+                if (catalogContext.Database.IsRelational())
                 {
                     catalogContext.Database.Migrate();
                 }
