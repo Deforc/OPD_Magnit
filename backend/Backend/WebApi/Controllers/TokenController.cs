@@ -81,5 +81,14 @@ namespace WebApi1.Controllers
 
             return new JsonResult(new { access_token = new JwtSecurityTokenHandler().WriteToken(token) });
         }
+        [HttpOptions]
+        public IActionResult Authorize()
+        {
+            HttpContext.Response.Headers.AccessControlAllowHeaders = "Authorization";
+            HttpContext.Response.Headers.AccessControlAllowMethods = "POST";
+            return Ok();
+        }
     }
+    
+    
 }
