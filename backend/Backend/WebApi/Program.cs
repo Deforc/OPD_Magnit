@@ -11,8 +11,8 @@ namespace WebApi1
 {
     public class Program
     {
-        internal const string ClientId = "ИмяПриложенияКоторомуМожноВыдатьТокен";
-        internal const string ClientSecret = "ПарольПриложенияКоторомуМожноВыдатьТокен";
+        internal const string ClientId = "Magnit";
+        internal const string ClientSecret = "OPDagdsgsdfhsdhsdfhshfd";
         internal const string Issuer = "Имя приложения";
 
         public static void Main(string[] args)
