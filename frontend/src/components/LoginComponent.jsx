@@ -8,11 +8,12 @@ import MessageWindow from "./UI/modals/message_window/MessageWindow";
 import "../styles/LoginForm.css"
 import {FaUserAlt} from "react-icons/fa";
 import {useNavigate} from "react-router-dom";
+import {decode as base64_decode, encode as base64_encode} from 'base-64';
 
 const LoginComponent = () => {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
-    const [isRemember, setIsRemember] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
 
     const [showError, setError] = useState(false);
     const [errorLabel, setLabel] = useState('');
@@ -21,29 +22,28 @@ const LoginComponent = () => {
     const [isValid, setValid] = useState(true);
 
     const navigate = useNavigate();
-
-    useEffect(() => {
-        axios.get("http://localhost:3001", {}).then();
-    }, []);
-
     async function sendLoginRequest(){
         if (login === '' || password === '') {
             setValid(false);
         }
         else {
-            await axios.post("http://localhost:3001/authorization", {
-                login: login,
-                password: password,
-                isRemember: isRemember}, {
+            await axios.post("http://localhost:3001/api/token",
+                ('grant_type='+'password'+'&'+'scope='+(isAdmin ? 'Admin' : '')+'&'+'username='+login+'&'+'password='+password),
+                {
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Authorization': 'Basic ' + base64_encode('Magnit:OPDagdsgsdfhsdhsdfhshfd')
                 }
             }).then((response) => {
                 if (response.status === 200){
                     navigate("/map_gallery");
                 }
             }).catch(function (error) {
+                if (error.request.status === 200){
+                    navigate("/map_gallery");
+                }
                 if (error.request.status === 401){
+                    console.log(error.request.body);
                     sentError('Ошибка авторизации',
                         'Пользователь с такими логином и паролем не найден.\r\n' +
                         'Проверьте корректность введенных данных.');
@@ -76,8 +76,8 @@ const LoginComponent = () => {
         setPassword(new_password);
     }
 
-    function toggleIsRemember(new_value){
-        setIsRemember(new_value);
+    function toggleIsAdmin(new_value){
+        setIsAdmin(new_value);
     }
 
     return (
@@ -93,8 +93,8 @@ const LoginComponent = () => {
                                                            get_value={changePassword}></PasswordInput>
                 {!isValid && password === '' && <label>Введите пароль</label>}
             </div>
-{/*            <div className="remember-me"><CheckmarkCheckbox label={'Запомнить меня'}
-                                                            get_value={toggleIsRemember}></CheckmarkCheckbox></div>*/}
+{            <div className="remember-me"><CheckmarkCheckbox label={'Зайти как администратор'}
+                                                            get_value={toggleIsAdmin}></CheckmarkCheckbox></div>}
             <div className="log-in-button"><MajorButton action={sendLoginRequest}>Войти</MajorButton>
                 {(showError === true) && <MessageWindow label={errorLabel} close={hideError}>
                     {errorText}</MessageWindow>}</div>

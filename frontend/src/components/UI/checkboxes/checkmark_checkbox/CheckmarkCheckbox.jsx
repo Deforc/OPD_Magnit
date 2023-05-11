@@ -7,7 +7,7 @@ const CheckmarkCheckbox = (props) => {
 
     function changeValue(event){
         setChecked(!checked);
-        props.get_value(event.target.checked);
+        props.get_value(!checked);
     }
 
     return (
