@@ -28,7 +28,6 @@ namespace WebApi1
                                 "http://www.contoso.com")
                             .AllowAnyHeader()
                             .AllowAnyMethod()
-                            .AllowCredentials()
                             .AllowAnyOrigin();
                     });
                 }
