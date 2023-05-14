@@ -23,7 +23,8 @@ public class UsersController : Controller
         _context = context;
     }*/
     public IPasswordHasher<IdentityUser> _hasher { get; set; }
-    public UsersController(ApplicationDbContext context, IPasswordHasher<IdentityUser> hasher) 
+
+    public UsersController(ApplicationDbContext context, IPasswordHasher<IdentityUser> hasher)
     {
         _hasher = hasher;
         _context = context;
@@ -38,13 +39,13 @@ public class UsersController : Controller
             select new
             {
                 id = user.Id,
-                firstname=user.UserName,
-                lastname=user.NormalizedUserName
-            }; 
-        return new JsonResult(list );
+                firstname = user.UserName,
+                lastname = user.NormalizedUserName
+            };
+        return new JsonResult(list);
     }
 
-    
+
     [HttpGet]
     [Route("Admins")]
     public IActionResult GetAdmins()
@@ -61,7 +62,7 @@ public class UsersController : Controller
         return new JsonResult(list);
     }
 
-    
+
     [HttpDelete]
     //[Route("DeleteUser")]
     public IActionResult Delete(string name)
@@ -78,21 +79,19 @@ public class UsersController : Controller
             return new EmptyResult();
         }
     }
+
     [HttpPost]
     //[Route("NewUser")]
     public IActionResult Post(string? firstname, string? lastname, string? password, string? Role, string? id)
     {
         var role = _context.Roles.FirstOrDefault(u => u.Id == null);
-        if (Role != null)
-        {
-            role = _context.Roles.FirstOrDefault(u => u.Id == Role);
-            _context.SaveChanges();
-        }
+        if (Role == null) return BadRequest(new { Message = "Не указана роль пользователя" });
+        role = _context.Roles.FirstOrDefault(u => u.Id == Role);
         _context.SaveChanges();
 
 
         var user = _context.Users.FirstOrDefault(u => u.UserName == id);
-        if (firstname == null || password == null || lastname ==null)
+        if (firstname == null || password == null || lastname == null)
         {
             return BadRequest(new { Message = "не введен пользователь, уебан" });
         }
@@ -106,9 +105,9 @@ public class UsersController : Controller
             }).Entity;
             user.PasswordHash = _hasher.HashPassword(user, password);
             _context.SaveChanges();
-           
         }
-        if ( user != null && role != null)
+
+        if (user != null && role != null)
         {
             _context.UserRoles.Add(new()
             {
@@ -119,37 +118,36 @@ public class UsersController : Controller
         }
 
         return Ok(new { Message = "Хотя долбоеб, но смог правильно пользовавтеля добавить" });
-
     }
+
     [HttpPatch]
-    public IActionResult Patch(string firstname, string? lastname, string password, string? Role, string? newfirstname, string? newpassword, string? newlastname, string? id ) 
+    public IActionResult Patch(string firstname, string? lastname, string password, string? Role, string? newfirstname,
+        string? newpassword, string? newlastname, string? id)
     {
         var user = _context.Users.Find(firstname);
         if (user == null)
         {
             return BadRequest(new { Message = "такого пидораса нет" });
         }
-        else
+
+        if (newfirstname != null)
         {
-            if (newfirstname != null)
-            {
-               user.UserName= newfirstname;
-                _context.SaveChanges();
-
-            }
-            if (newpassword != null) 
-            {
-                user.PasswordHash=_hasher.HashPassword(user, newpassword);
-                _context.SaveChanges();
-
-            }
-            if (newlastname != null)
-            {
-                user.NormalizedUserName=newlastname;
-                _context.SaveChanges();
-            }
-            
-            return Ok(new {Message = "Хотя долбоеб, но смог правильно пользовавтеля изменить"});
+            user.UserName = newfirstname;
+            _context.SaveChanges();
         }
+
+        if (newpassword != null)
+        {
+            user.PasswordHash = _hasher.HashPassword(user, newpassword);
+            _context.SaveChanges();
+        }
+
+        if (newlastname != null)
+        {
+            user.NormalizedUserName = newlastname;
+            _context.SaveChanges();
+        }
+
+        return Ok(new { Message = "Хотя долбоеб, но смог правильно пользовавтеля изменить" });
     }
 }

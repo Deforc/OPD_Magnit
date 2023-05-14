@@ -11,17 +11,31 @@ namespace WebApi1
 {
     public class Program
     {
-        internal const string ClientId = "ИмяПриложенияКоторомуМожноВыдатьТокен";
-        internal const string ClientSecret = "ПарольПриложенияКоторомуМожноВыдатьТокен";
+        internal const string ClientId = "Magnit";
+        internal const string ClientSecret = "OPDagdsgsdfhsdhsdfhshfd";
         internal const string Issuer = "Имя приложения";
-
         public static void Main(string[] args)
         {
+            var myAllowSpecificOrigins = "_myAllowSpecificOrigins";
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddCors(options =>
+                {
+                    options.AddPolicy(myAllowSpecificOrigins, policy =>
+                    {
+                        policy.WithOrigins(
+                                "http://example.com",
+                                "http://www.contoso.com")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowCredentials()
+                            .AllowAnyOrigin();
+                    });
+                }
+                );
             // Add services to the container.
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-            builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 25))));
+            builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 32))));
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()
@@ -116,6 +130,8 @@ namespace WebApi1
 
             app.UseHttpsRedirection();
 
+            app.UseCors(myAllowSpecificOrigins);
+            
             app.UseAuthentication();
             app.UseAuthorization();
 

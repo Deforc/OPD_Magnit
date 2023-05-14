@@ -37,6 +37,8 @@ namespace WebApi1.Controllers
 
                 clientId = parts[0];
                 clientSecret = parts[1];
+                Console.WriteLine(clientId);
+                Console.WriteLine(clientSecret);
             }
 
             if (Program.ClientId != clientId || Program.ClientSecret != clientSecret)
@@ -80,4 +82,6 @@ namespace WebApi1.Controllers
             return new JsonResult(new { access_token = new JwtSecurityTokenHandler().WriteToken(token) });
         }
     }
+    
+    
 }
