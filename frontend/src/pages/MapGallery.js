@@ -1,4 +1,3 @@
-import React, {useEffect, useRef} from 'react';
 import MajorHeader from "../components/UI/headers/major_header/MajorHeader";
 import "../styles/MapGallery.css"
 import TextInput from "../components/UI/inputs/text_input/TextInput";
@@ -7,31 +6,18 @@ import {FaPlus, FaQuestionCircle, FaSearch} from "react-icons/fa";
 import AdditionalButton from "../components/UI/buttons/additional_button/AdditionalButton";
 import TextSelect from "../components/UI/select/TextSelect";
 
-function fetchData(url, dataArray) {
-    useEffect(() => {
-        const fetchDataFromServer = async () => {
-            try {
-                const response = await fetch(url);
-                dataArray.current = await response.json(); // Присваиваем полученные данные массиву по ссылке
-            } catch (error) {
-                console.error('Ошибка при выполнении запроса:', error);
-            }
-        };
-
-        fetchDataFromServer();
-
-        return () => {
-            // Очистка
-        };
-    }, [url, dataArray]);
-}
-
-const dataArrayRef = '';
-
-fetchData('http://localhost:3001/maps', dataArrayRef);
 
 const MapGallery = () => {
+    const dataArrayRef =[ {'city': 'красноярск', 'street': 'ул. Солнечная', 'house':'15', 'building':'5', 'floor':'5'},  {'city': 'красноярск', 'street': 'ул. Солнечная', 'house':'15', 'building':'5', 'floor':'5'}];
 
+     /*   useEffect(async () => {
+        try {
+            const response = await fetch('http://localhost:3001/maps');
+            dataArray.current = await response.json(); // Присваиваем полученные данные массиву по ссылке
+        } catch (error) {
+            console.error('Ошибка при выполнении запроса:', error);
+        }
+    }, []); */
     return (
         <div className="map-gallery-container">
             <MajorHeader className="map-gallery-header"></MajorHeader>
