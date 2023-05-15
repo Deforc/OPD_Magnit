@@ -19,24 +19,27 @@ const MapGallery = () => {
     const [buildings, setBuildingsData] = useState([]);
     const [floors, setFloorsData] = useState([]);
 
-    useEffect(/*async*/ () => {
-    try {
-          const response = await fetch('http://localhost:3001/maps');
-          dataArray.current = await response.json(); // Присваиваем полученные данные массиву по ссылке
-      } catch (error) {
-          console.error('Ошибка при выполнении запроса:', error);
-      }
-         for (let i = 0; i < dataArrayRef.length; i++) {
-             const obj = dataArrayRef[i];
-             if(!(cites.find(e => e.name === obj.city))) cites.push({'value':obj.city, 'name': obj.city});
-             if(!(streets.find(e => e.name === obj.street))) streets.push({'value':obj.street, 'name': obj.street});
-             if(!(houses.find(e => e.name === obj.house))) houses.push({'value':obj.house, 'name': obj.house});
-             if(!(buildings.find(e => e.name === obj.building))) buildings.push({'value':obj.building, 'name': obj.building});
-             if(!(floors.find(e => e.name === obj.floor))) floors.push({'value':obj.floor, 'name': obj.floor});
-         }
-         console.log(cites);
-         filterData();
-         }, []);
+    useEffect(/*async*/ async () => {
+        try {
+            const response = await fetch('http://localhost:3001/maps');
+            dataArray.current = await response.json(); // Присваиваем полученные данные массиву по ссылке
+        } catch (error) {
+            console.error('Ошибка при выполнении запроса:', error);
+        }
+        for (let i = 0; i < dataArrayRef.length; i++) {
+            const obj = dataArrayRef[i];
+            if (!(cites.find(e => e.name === obj.city))) cites.push({'value': obj.city, 'name': obj.city});
+            if (!(streets.find(e => e.name === obj.street))) streets.push({'value': obj.street, 'name': obj.street});
+            if (!(houses.find(e => e.name === obj.house))) houses.push({'value': obj.house, 'name': obj.house});
+            if (!(buildings.find(e => e.name === obj.building))) buildings.push({
+                'value': obj.building,
+                'name': obj.building
+            });
+            if (!(floors.find(e => e.name === obj.floor))) floors.push({'value': obj.floor, 'name': obj.floor});
+        }
+        console.log(cites);
+        filterData();
+    }, []);
 
 //добавить функию по распределению полей по массивам
 
