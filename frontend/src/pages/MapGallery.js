@@ -5,19 +5,39 @@ import MapPreviews from "../components/MapPreviews";
 import {FaPlus, FaQuestionCircle, FaSearch} from "react-icons/fa";
 import AdditionalButton from "../components/UI/buttons/additional_button/AdditionalButton";
 import TextSelect from "../components/UI/select/TextSelect";
+import React, {useEffect, useState} from 'react';
 
 
 const MapGallery = () => {
-    const dataArrayRef =[ {'city': 'красноярск', 'street': 'ул. Солнечная', 'house':'15', 'building':'5', 'floor':'5'},  {'city': 'красноярск', 'street': 'ул. Солнечная', 'house':'15', 'building':'5', 'floor':'5'}];
 
-     /*   useEffect(async () => {
-        try {
-            const response = await fetch('http://localhost:3001/maps');
-            dataArray.current = await response.json(); // Присваиваем полученные данные массиву по ссылке
-        } catch (error) {
-            console.error('Ошибка при выполнении запроса:', error);
-        }
-    }, []); */
+   const [filter, setFilter] = useState({'city': '', 'street': '', 'house':'', 'building':'', 'floor':''});
+    const dataArrayRef =[ {'city': 'красноярск', 'street': 'ул. Солнечная', 'house':'15', 'building':'5', 'floor':'6'},  {'city': 'красноярск', 'street': 'ул. Солнечная', 'house':'15', 'building':'5', 'floor':'5'}];
+     useEffect(/*async*/ () => {
+   /*  try {
+          const response = await fetch('http://localhost:3001/maps');
+          dataArray.current = await response.json(); // Присваиваем полученные данные массиву по ссылке
+      } catch (error) {
+          console.error('Ошибка при выполнении запроса:', error);
+      }*/ //добавить функию по распределению полей по массивам
+         for (let i = 0; i < dataArrayRef.length; i++) {
+             const obj = dataArrayRef[i];
+             if(!(cites.find(e => e.name === obj.city))) cites.push({'value':obj.city, 'name': obj.city});
+             if(!(streets.find(e => e.name === obj.street))) streets.push({'value':obj.street, 'name': obj.street});
+             if(!(houses.find(e => e.name === obj.house))) houses.push({'value':obj.house, 'name': obj.house});
+             if(!(buildings.find(e => e.name === obj.building))) buildings.push({'value':obj.building, 'name': obj.building});
+             if(!(floors.find(e => e.name === obj.floor))) floors.push({'value':obj.floor, 'name': obj.floor});
+         }}, []);
+
+//добавить функию по распределению полей по массивам
+
+    const cites = [];
+    const streets =[];
+    const houses = [];
+    const buildings = [];
+    const floors = [];
+
+
+
     return (
         <div className="map-gallery-container">
             <MajorHeader className="map-gallery-header"></MajorHeader>
@@ -30,21 +50,21 @@ const MapGallery = () => {
                 <TextInput label={"Адрес"} example={"Поиск"} icon={<FaSearch/>}></TextInput>
                 <div className="map-filter-list">
                     <div className="city-filter">
-                        <TextSelect  options={[{value: 'City', name: 'Город'}]}>Город</TextSelect>
+                        <TextSelect  options={cites}>Город</TextSelect>
                     </div>
                     <div className="street-filter">
-                        <TextSelect options={[{value: 'Street', name: 'ул. Улица'}]}>
+                        <TextSelect options={streets}>
                             Улица (проспект/переулок)
                         </TextSelect>
                     </div>
                     <div className="house-filter">
-                        <TextSelect options={[{value: 'House', name: '10'}]}>Дом</TextSelect>
+                        <TextSelect options={houses}>Дом</TextSelect>
                     </div>
                     <div className="building-filter">
-                        <TextSelect options={[{value: 'Building', name: '2б'}]}>Корпус</TextSelect>
+                        <TextSelect options={buildings}>Корпус</TextSelect>
                     </div>
                     <div className="floor-filter">
-                        <TextSelect options={[{value: 'Floor', name: '100'}]}>Этаж</TextSelect>
+                        <TextSelect options={floors}>Этаж</TextSelect>
                     </div>
                 </div>
             </div>
@@ -57,13 +77,13 @@ const MapGallery = () => {
             </div>
             <div>
                 {dataArrayRef.map((item) => (
-                    <MapPreviews
-                        key={item.city}
+                   <MapPreviews
                         city={item.city}
                         street={item.street}
                         house={item.house}
                         building={item.building}
                         floor={item.floor}
+
                     />
                 ))}
             </div>
