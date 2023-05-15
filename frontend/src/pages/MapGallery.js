@@ -10,15 +10,22 @@ import React, {useEffect, useState} from 'react';
 
 const MapGallery = () => {
 
-   const [filter, setFilter] = useState({'city': '', 'street': '', 'house':'', 'building':'', 'floor':''});
+   const [filter, setFilter] = useState({'city': 'красноярск', 'street': '', 'house':'', 'building':'', 'floor':''});
     const dataArrayRef =[ {'city': 'красноярск', 'street': 'ул. Солнечная', 'house':'15', 'building':'5', 'floor':'6'},  {'city': 'красноярск', 'street': 'ул. Солнечная', 'house':'15', 'building':'5', 'floor':'5'}];
-     useEffect(/*async*/ () => {
-   /*  try {
+     const [filtredData, setFilterData] = useState([]);
+    const [cites, setCitesData] = useState([]);
+    const [streets, setStreetsData] = useState([]);
+    const [houses, setHousesData] = useState([]);
+    const [buildings, setBuildingsData] = useState([]);
+    const [floors, setFloorsData] = useState([]);
+
+    useEffect(/*async*/ () => {
+    try {
           const response = await fetch('http://localhost:3001/maps');
           dataArray.current = await response.json(); // Присваиваем полученные данные массиву по ссылке
       } catch (error) {
           console.error('Ошибка при выполнении запроса:', error);
-      }*/ //добавить функию по распределению полей по массивам
+      }
          for (let i = 0; i < dataArrayRef.length; i++) {
              const obj = dataArrayRef[i];
              if(!(cites.find(e => e.name === obj.city))) cites.push({'value':obj.city, 'name': obj.city});
@@ -26,16 +33,47 @@ const MapGallery = () => {
              if(!(houses.find(e => e.name === obj.house))) houses.push({'value':obj.house, 'name': obj.house});
              if(!(buildings.find(e => e.name === obj.building))) buildings.push({'value':obj.building, 'name': obj.building});
              if(!(floors.find(e => e.name === obj.floor))) floors.push({'value':obj.floor, 'name': obj.floor});
-         }}, []);
+         }
+         console.log(cites);
+         filterData();
+         }, []);
 
 //добавить функию по распределению полей по массивам
 
-    const cites = [];
-    const streets =[];
-    const houses = [];
-    const buildings = [];
-    const floors = [];
 
+
+
+function filterData(){
+    setFilterData(dataArrayRef.filter(item => ((item.city === filter.city)||(filter.city===''))
+        && ((item.street === filter.street)||(filter.street===''))
+        && ((item. building === filter.building)||(filter.building===''))
+        && ((item.floor === filter.floor)||(filter.floor===''))));
+}
+
+    function changeCity(city){
+        setFilter({'city': city, 'street': filter.street, 'house':filter.house, 'building':filter.building, 'floor':filter.floor});
+        filterData();
+    }
+
+    function changeStreet(street){
+        setFilter({'city': filter.city, 'street': street, 'house':filter.house, 'building':filter.building, 'floor':filter.floor});
+        filterData();
+    }
+
+    function changeHouse(house){
+        setFilter({'city': filter.city, 'street': filter.street, 'house': house, 'building':filter.building, 'floor':filter.floor});
+        filterData();
+    }
+
+    function changeBuilding(building){
+        setFilter({'city': filter.city, 'street': filter.street, 'house':filter.house, 'building': building, 'floor':filter.floor});
+        filterData();
+    }
+
+    function changeFloor(floor){
+        setFilter({'city': filter.city, 'street': filter.street, 'house':filter.house, 'building':filter.building, 'floor':floor});
+        filterData();
+    }
 
 
     return (
@@ -50,21 +88,19 @@ const MapGallery = () => {
                 <TextInput label={"Адрес"} example={"Поиск"} icon={<FaSearch/>}></TextInput>
                 <div className="map-filter-list">
                     <div className="city-filter">
-                        <TextSelect  options={cites}>Город</TextSelect>
+                        <TextSelect onChange={changeCity} options={cites}>Город</TextSelect>
                     </div>
                     <div className="street-filter">
-                        <TextSelect options={streets}>
-                            Улица (проспект/переулок)
-                        </TextSelect>
+                        <TextSelect onChange={changeStreet} options={streets}> Улица (проспект/переулок)</TextSelect>
                     </div>
                     <div className="house-filter">
-                        <TextSelect options={houses}>Дом</TextSelect>
+                        <TextSelect onChange={changeHouse} options={houses}>Дом</TextSelect>
                     </div>
                     <div className="building-filter">
-                        <TextSelect options={buildings}>Корпус</TextSelect>
+                        <TextSelect onChange={changeBuilding} options={buildings}>Корпус</TextSelect>
                     </div>
                     <div className="floor-filter">
-                        <TextSelect options={floors}>Этаж</TextSelect>
+                        <TextSelect onChange={changeFloor} options={floors}>Этаж</TextSelect>
                     </div>
                 </div>
             </div>
@@ -76,16 +112,17 @@ const MapGallery = () => {
                 </div>
             </div>
             <div>
-                {dataArrayRef.map((item) => (
-                   <MapPreviews
-                        city={item.city}
-                        street={item.street}
-                        house={item.house}
-                        building={item.building}
-                        floor={item.floor}
+                {
+                    filtredData.map((item) => (
+                    <MapPreviews
+                    city={item.city}
+                    street={item.street}
+                    house={item.house}
+                    building={item.building}
+                    floor={item.floor}
+                    />))
+                }
 
-                    />
-                ))}
             </div>
             <footer className="map-gallery-footer"></footer>
         </div>

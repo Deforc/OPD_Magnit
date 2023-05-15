@@ -9,7 +9,8 @@ const TextSelect = (props) => {
         <div className={styles.join(' ')}>
             <label>{props.children}</label>
             <select onFocus={() => setFocus(true)}
-                    onBlur={() => setFocus(false)}>
+                    onBlur={() => setFocus(false)}
+            onChange={props.onChange}>
                 <option value="">{props.defaultValue}</option>
                 {props.options.map(option =>
                     <option value={option.value}>
