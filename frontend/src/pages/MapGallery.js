@@ -1,14 +1,37 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import MajorHeader from "../components/UI/headers/major_header/MajorHeader";
 import "../styles/MapGallery.css"
 import TextInput from "../components/UI/inputs/text_input/TextInput";
 import MapPreviews from "../components/MapPreviews";
-import {FaPlus, FaSearch} from "react-icons/fa";
+import {FaPlus, FaQuestionCircle, FaSearch} from "react-icons/fa";
 import AdditionalButton from "../components/UI/buttons/additional_button/AdditionalButton";
 import TextSelect from "../components/UI/select/TextSelect";
-import {FaQuestionCircle} from "react-icons/fa";
+
+function fetchData(url, dataArray) {
+    useEffect(() => {
+        const fetchDataFromServer = async () => {
+            try {
+                const response = await fetch(url);
+                dataArray.current = await response.json(); // Присваиваем полученные данные массиву по ссылке
+            } catch (error) {
+                console.error('Ошибка при выполнении запроса:', error);
+            }
+        };
+
+        fetchDataFromServer();
+
+        return () => {
+            // Очистка
+        };
+    }, [url, dataArray]);
+}
+
+const dataArrayRef = '';
+
+fetchData('http://localhost:3001/maps', dataArrayRef);
 
 const MapGallery = () => {
+
     return (
         <div className="map-gallery-container">
             <MajorHeader className="map-gallery-header"></MajorHeader>
@@ -47,7 +70,16 @@ const MapGallery = () => {
                 </div>
             </div>
             <div>
-                <MapPreviews></MapPreviews>
+                {dataArrayRef.map((item) => (
+                    <MapPreviews
+                        key={item.city}
+                        city={item.city}
+                        street={item.street}
+                        house={item.house}
+                        building={item.building}
+                        floor={item.floor}
+                    />
+                ))}
             </div>
             <footer className="map-gallery-footer"></footer>
         </div>
