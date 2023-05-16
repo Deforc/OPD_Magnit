@@ -35,11 +35,13 @@ const LoginComponent = (props) => {
             }).then((response) => {
                 if (response.status === 200){
                     props.setToken(response.data.access_token);
+                    localStorage.setItem("access", 'user');
                     navigate("/map_gallery")
                 }
             }).catch(function (error) {
                 if (error.request.status === 200){
                     props.setToken(error.request.data.access_token);
+                    localStorage.setItem("access", 'user');
                     navigate("/map_gallery");
                 }
                 if (error.request.status === 401) {
@@ -52,11 +54,13 @@ const LoginComponent = (props) => {
                             }
                         }).then((response) => {
                         if (response.status === 200) {
+                            localStorage.setItem("access", 'admin');
                             console.log(response.data);
                         }
                     }).catch(function (error) {
                         if (error.request.status === 200) {
                             props.setToken(error.request.data.access_token);
+                            localStorage.setItem("access", 'admin');
                             navigate("/map_gallery")
                         }
                         if (error.request.status === 400) {

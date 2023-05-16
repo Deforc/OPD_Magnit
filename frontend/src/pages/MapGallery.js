@@ -10,9 +10,9 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
 const MapGallery = () => {
-    const [filter, setFilter] = useState({'city': '' +
-            'красноярск', 'street': '', 'house':'', 'building':'', 'floor':''});
-    const [dataArrayRef, setDataArrayRef] = useState([ {'city': 'красноярск', 'street': 'ул. Солнечная', 'house':'15', 'building':'5', 'floor':'6'},  {'city': 'красноярск', 'street': 'ул. Солнечная', 'house':'15', 'building':'5', 'floor':'5'}]);
+    const [filter, setFilter] = useState(
+        {'city': '' + '', 'street': '', 'house':'', 'building':'', 'floor':''});
+    const [dataArrayRef, setDataArrayRef] = useState([]);
     const [filtredData, setFilterData] = useState([]);
     const [cites, setCitesData] = useState([]);
     const [streets, setStreetsData] = useState([]);
@@ -21,14 +21,26 @@ const MapGallery = () => {
     const [floors, setFloorsData] = useState([]);
 
     let navigate = useNavigate();
-    useEffect( async () => {
-        await axios.get("http://localhost:3001/maps",
+    useEffect(() => {
+        axios.get("http://localhost:3001/maps",
             {
                 headers: {
                     'Authorization': ' Bearer ' + localStorage.getItem("token")
                 }
             }).then((response) => {
                 setDataArrayRef(response.data);
+                setFilterData(response.data);
+                for (let i = 0; i < dataArrayRef.length; i++) {
+                    const obj = dataArrayRef[i];
+                    if (!(cites.find(e => e.name === obj.city))) cites.push({'value': obj.city, 'name': obj.city});
+                    if (!(streets.find(e => e.name === obj.street))) streets.push({'value': obj.street, 'name': obj.street});
+                    if (!(houses.find(e => e.name === obj.house))) houses.push({'value': obj.house, 'name': obj.house});
+                    if (!(buildings.find(e => e.name === obj.building))) buildings.push({
+                        'value': obj.building,
+                        'name': obj.building
+                    });
+                    if (!(floors.find(e => e.name === obj.floor))) floors.push({'value': obj.floor, 'name': obj.floor});
+                }
         }).catch(function (error) {
             if (error.request.status === 400) {
                 console.log('Ошибка авторизации',
@@ -43,7 +55,9 @@ const MapGallery = () => {
                 navigate("/")
             }
         });
+    }, []);
 
+    useEffect(() => {
         for (let i = 0; i < dataArrayRef.length; i++) {
             const obj = dataArrayRef[i];
             if (!(cites.find(e => e.name === obj.city))) cites.push({'value': obj.city, 'name': obj.city});
@@ -56,14 +70,13 @@ const MapGallery = () => {
             if (!(floors.find(e => e.name === obj.floor))) floors.push({'value': obj.floor, 'name': obj.floor});
         }
         filterData();
-    }, []);
-
-function filterData(){
-    setFilterData(dataArrayRef.filter(item => ((item.city === filter.city)||(filter.city===''))
-        && ((item.street === filter.street)||(filter.street===''))
-        && ((item. building === filter.building)||(filter.building===''))
-        && ((item.floor === filter.floor)||(filter.floor===''))));
-}
+    }, [filter])
+    function filterData(){
+        setFilterData(dataArrayRef.filter(item => ((item.city === filter.city)||(filter.city===''))
+            && ((item.street === filter.street)||(filter.street===''))
+            && ((item. building === filter.building)||(filter.building===''))
+            && ((item.floor === filter.floor)||(filter.floor===''))));
+    }
 
     function changeCity(city){
         setFilter({'city': city, 'street': filter.street, 'house':filter.house, 'building':filter.building, 'floor':filter.floor});
