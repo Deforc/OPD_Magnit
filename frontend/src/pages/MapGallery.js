@@ -44,9 +44,6 @@ const MapGallery = () => {
         filterData();
     }, []);
 
-//добавить функию по распределению полей по массивам
-
-
 function filterData(){
     setFilterData(dataArrayRef.filter(item => ((item.city === filter.city)||(filter.city===''))
         && ((item.street === filter.street)||(filter.street===''))
