@@ -6,26 +6,30 @@ import {FaPlus, FaQuestionCircle, FaSearch} from "react-icons/fa";
 import AdditionalButton from "../components/UI/buttons/additional_button/AdditionalButton";
 import TextSelect from "../components/UI/select/TextSelect";
 import React, {useEffect, useState} from 'react';
-
+import axios from "axios";
 
 const MapGallery = () => {
-
-   const [filter, setFilter] = useState({'city': 'красноярск', 'street': '', 'house':'', 'building':'', 'floor':''});
-    const dataArrayRef =[ {'city': 'красноярск', 'street': 'ул. Солнечная', 'house':'15', 'building':'5', 'floor':'6'},  {'city': 'красноярск', 'street': 'ул. Солнечная', 'house':'15', 'building':'5', 'floor':'5'}];
-     const [filtredData, setFilterData] = useState([]);
+    const [filter, setFilter] = useState({'city': 'красноярск', 'street': '', 'house':'', 'building':'', 'floor':''});
+    const [dataArrayRef, setDataArrayRef] = useState([ {'city': 'красноярск', 'street': 'ул. Солнечная', 'house':'15', 'building':'5', 'floor':'6'},  {'city': 'красноярск', 'street': 'ул. Солнечная', 'house':'15', 'building':'5', 'floor':'5'}]);
+    const [filtredData, setFilterData] = useState([]);
     const [cites, setCitesData] = useState([]);
     const [streets, setStreetsData] = useState([]);
     const [houses, setHousesData] = useState([]);
     const [buildings, setBuildingsData] = useState([]);
     const [floors, setFloorsData] = useState([]);
 
-    useEffect(/*async*/ async () => {
-        try {
-            const response = await fetch('http://localhost:3001/maps');
-            dataArray.current = await response.json(); // Присваиваем полученные данные массиву по ссылке
-        } catch (error) {
-            console.error('Ошибка при выполнении запроса:', error);
-        }
+    useEffect( async () => {
+        await axios.get("http://localhost:3001/maps",
+            {
+                headers: {
+                    'Authorization': ' Bearer ' + localStorage.getItem("token")
+                }
+            }).then((response) => {
+                console.log(response)
+        }).catch(function (error) {
+            console.log(error)
+        });
+
         for (let i = 0; i < dataArrayRef.length; i++) {
             const obj = dataArrayRef[i];
             if (!(cites.find(e => e.name === obj.city))) cites.push({'value': obj.city, 'name': obj.city});
@@ -37,13 +41,10 @@ const MapGallery = () => {
             });
             if (!(floors.find(e => e.name === obj.floor))) floors.push({'value': obj.floor, 'name': obj.floor});
         }
-        console.log(cites);
         filterData();
     }, []);
 
 //добавить функию по распределению полей по массивам
-
-
 
 
 function filterData(){
@@ -77,7 +78,6 @@ function filterData(){
         setFilter({'city': filter.city, 'street': filter.street, 'house':filter.house, 'building':filter.building, 'floor':floor});
         filterData();
     }
-
 
     return (
         <div className="map-gallery-container">
@@ -125,8 +125,8 @@ function filterData(){
                     floor={item.floor}
                     />))
                 }
-
             </div>
+
             <footer className="map-gallery-footer"></footer>
         </div>
     );
