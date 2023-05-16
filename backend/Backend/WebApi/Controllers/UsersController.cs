@@ -29,7 +29,10 @@ public class UsersController : Controller
         _hasher = hasher;
         _context = context;
     }
-
+    /// <summary>
+    /// Возвращает список пользователей
+    /// </summary>
+    /// <returns></returns>
     [HttpGet]
     // [Route("Users")]
     public IActionResult GetUsers()
@@ -53,7 +56,7 @@ public class UsersController : Controller
         var list =
             from user in _context.Users
             from userRole in _context.UserRoles
-            where userRole.UserId == user.Id
+            where userRole.UserId == user.Id 
             select new
             {
                 user = user.Id,
@@ -80,18 +83,31 @@ public class UsersController : Controller
         }
     }
 
+    public record struct CreateUserData(
+        string? Firstname,
+        string? Lastname,
+        string? Password,
+        string? Role,
+        string? Id);
     [HttpPost]
     //[Route("NewUser")]
-    public IActionResult Post(string? firstname, string? lastname, string? password, string? Role, string? id)
+    public IActionResult Post(
+        /*[From] string? firstname, 
+        [FromBody] string? lastname, 
+        [FromBody] string? password, 
+        [FromBody] string? Role, 
+        [FromBody] string? id*/
+        [FromBody] CreateUserData requestBody
+        )
     {
         var role = _context.Roles.FirstOrDefault(u => u.Id == null);
-        if (Role == null) return BadRequest(new { Message = "Не указана роль пользователя" });
-        role = _context.Roles.FirstOrDefault(u => u.Id == Role);
+        //if (Role == null) return BadRequest(new { Message = "Не указана роль пользователя" });
+        role = _context.Roles.FirstOrDefault(u => u.Id == requestBody.Role);
         _context.SaveChanges();
 
 
-        var user = _context.Users.FirstOrDefault(u => u.UserName == id);
-        if (firstname == null || password == null || lastname == null)
+        var user = _context.Users.FirstOrDefault(u => u.UserName == requestBody.Id);
+        if (requestBody.Firstname == null || requestBody.Password == null || requestBody.Lastname == null)
         {
             return BadRequest(new { Message = "не введен пользователь, уебан" });
         }
@@ -99,11 +115,11 @@ public class UsersController : Controller
         {
             user = _context.Users.Add(new()
             {
-                Id = id,
-                UserName = firstname,
-                NormalizedUserName = lastname,
+                Id = requestBody.Id,
+                UserName = requestBody.Firstname,
+                NormalizedUserName = requestBody.Lastname,
             }).Entity;
-            user.PasswordHash = _hasher.HashPassword(user, password);
+            user.PasswordHash = _hasher.HashPassword(user, requestBody.Password);
             _context.SaveChanges();
         }
 

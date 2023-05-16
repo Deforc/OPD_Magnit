@@ -115,7 +115,19 @@ namespace WebApi1.Data
                     }).Entity;
                     catalogContext.SaveChanges();
                 }
-                
+
+                var mapUser = catalogContext
+                    .MapUsers
+                    .FirstOrDefault(u => u.MapId == 1 && u.IdentityUserId == "admin");
+                if (mapUser is null)
+                {
+                    mapUser = catalogContext.MapUsers.Add(new()
+                    {
+                        MapId = 1,
+                        IdentityUserId = "admin"
+                    }).Entity;
+                    catalogContext.SaveChanges();
+                }
             }
             catch (Exception ex)
             {

@@ -7,6 +7,7 @@ namespace WebApi1.Data
     public class ApplicationDbContext : IdentityDbContext
     {
         public DbSet<Map> Maps { get; set; }
+        public DbSet<MapUser> MapUsers { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
