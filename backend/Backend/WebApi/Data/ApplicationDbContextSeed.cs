@@ -76,6 +76,7 @@ namespace WebApi1.Data
                 {
                     map = catalogContext.Maps.Add(new()
                     {
+                        Id = 1,
                         City = "Город",
                         Street = "Улица ",
                         House = "Дом",
