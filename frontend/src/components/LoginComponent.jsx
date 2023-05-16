@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import MajorButton from "./UI/buttons/major_button/MajorButton";
 import TextInput from "./UI/inputs/text_input/TextInput";
 import PasswordInput from "./UI/inputs/password_input/PasswordInput";
+import CheckmarkCheckbox from "./UI/checkboxes/checkmark_checkbox/CheckmarkCheckbox";
 import axios from "axios";
 import MessageWindow from "./UI/modals/message_window/MessageWindow";
 import "../styles/LoginForm.css"
@@ -9,9 +10,10 @@ import {FaUserAlt} from "react-icons/fa";
 import {useNavigate} from "react-router-dom";
 import {decode as base64_decode, encode as base64_encode} from 'base-64';
 
-const LoginComponent = (props) => {
+const LoginComponent = () => {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
+    const [isAdmin, setIsAdmin] = useState(false);
 
     const [showError, setError] = useState(false);
     const [errorLabel, setLabel] = useState('');
@@ -26,7 +28,7 @@ const LoginComponent = (props) => {
         }
         else {
             await axios.post("http://localhost:3001/api/token",
-                ('grant_type='+'password'+'&'+'scope='+''+'&'+'username='+login+'&'+'password='+password),
+                ('grant_type='+'password'+'&'+'scope='+(isAdmin ? 'Admin' : '')+'&'+'username='+login+'&'+'password='+password),
                 {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -108,6 +110,10 @@ const LoginComponent = (props) => {
         setPassword(new_password);
     }
 
+    function toggleIsAdmin(new_value){
+        setIsAdmin(new_value);
+    }
+
     return (
         <div className="log-in">
             <h1>Авторизоваться</h1>
@@ -121,6 +127,8 @@ const LoginComponent = (props) => {
                                                            get_value={changePassword}></PasswordInput>
                 {!isValid && password === '' && <label>Введите пароль</label>}
             </div>
+{            <div className="remember-me"><CheckmarkCheckbox label={'Зайти как администратор'}
+                                                            get_value={toggleIsAdmin}></CheckmarkCheckbox></div>}
             <div className="log-in-button"><MajorButton action={sendLoginRequest}>Войти</MajorButton>
                 {(showError === true) && <MessageWindow label={errorLabel} close={hideError}>
                     {errorText}</MessageWindow>}</div>
