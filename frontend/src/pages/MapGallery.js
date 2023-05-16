@@ -7,9 +7,11 @@ import AdditionalButton from "../components/UI/buttons/additional_button/Additio
 import TextSelect from "../components/UI/select/TextSelect";
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const MapGallery = () => {
-    const [filter, setFilter] = useState({'city': 'красноярск', 'street': '', 'house':'', 'building':'', 'floor':''});
+    const [filter, setFilter] = useState({'city': '' +
+            'красноярск', 'street': '', 'house':'', 'building':'', 'floor':''});
     const [dataArrayRef, setDataArrayRef] = useState([ {'city': 'красноярск', 'street': 'ул. Солнечная', 'house':'15', 'building':'5', 'floor':'6'},  {'city': 'красноярск', 'street': 'ул. Солнечная', 'house':'15', 'building':'5', 'floor':'5'}]);
     const [filtredData, setFilterData] = useState([]);
     const [cites, setCitesData] = useState([]);
@@ -18,6 +20,7 @@ const MapGallery = () => {
     const [buildings, setBuildingsData] = useState([]);
     const [floors, setFloorsData] = useState([]);
 
+    let navigate = useNavigate();
     useEffect( async () => {
         await axios.get("http://localhost:3001/maps",
             {
@@ -27,7 +30,18 @@ const MapGallery = () => {
             }).then((response) => {
                 setDataArrayRef(response.data);
         }).catch(function (error) {
-            console.log(error)
+            if (error.request.status === 400) {
+                console.log('Ошибка авторизации',
+                    'Пользователь с такими логином и паролем не найден.\r\n' +
+                    'Проверьте корректность введенных данных.');
+            }
+            if (error.request.status === 404) {
+                console.log('Ошибка 404. Сервер не найден.');
+            }
+            if (error.request.status === 403) {
+                console.log('Доступ запрещен.');
+                navigate("/")
+            }
         });
 
         for (let i = 0; i < dataArrayRef.length; i++) {
@@ -123,7 +137,6 @@ function filterData(){
                     />))
                 }
             </div>
-
             <footer className="map-gallery-footer"></footer>
         </div>
     );
