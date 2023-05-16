@@ -27,7 +27,7 @@ const MapGallery = () => {
                     'Authorization': ' Bearer ' + localStorage.getItem("token")
                 }
             }).then((response) => {
-                console.log(response)
+                setDataArrayRef(response.data);
         }).catch(function (error) {
             if (error.request.status === 400) {
                 console.log('Ошибка авторизации',
