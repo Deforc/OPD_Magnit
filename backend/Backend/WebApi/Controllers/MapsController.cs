@@ -30,7 +30,9 @@ public class MapsController:Controller
                 Id = map.Id,
                 City = map.City,
                 Street = map.Street,
-                House = map.House
+                House = map.House,
+                Building = map.Building,
+                Floor=map.Floor
             };
         return new JsonResult(mapList);
     }
@@ -39,7 +41,7 @@ public class MapsController:Controller
     public IActionResult GetFavoriteMaps()
     {
         var user = User.FindFirstValue(ClaimTypes.Name);
-        if (user is null) return Unauthorized(new { Message = "Пользователь не авторизован, петух" });
+        if (user is null) return Unauthorized(new { Message = "Пользователь не авторизован" });
         var favoritesMaps =
         from mapUser in _context.MapUsers
         where mapUser.IdentityUserId == user
@@ -72,6 +74,8 @@ public class MapsController:Controller
             if (map.City != null) newMap.City = map.City;
             if (map.Street != null) newMap.Street = map.Street;
             if (map.House != null) newMap.House = map.House;
+            if (map.Building != null) newMap.Building = map.Building;
+            if (map.Floor != null) newMap.Floor = map.Floor;
             if (map.IsMap != null) newMap.IsMap = map.IsMap.Value;
             if (map.Json != null) newMap.Json = map.Json;
             _context.Maps.Add(newMap);
@@ -98,6 +102,8 @@ public class MapsController:Controller
         if (mapFromRequest.City != null) desiredMap.City = mapFromRequest.City;
         if (mapFromRequest.Street != null) desiredMap.Street = mapFromRequest.Street;
         if (mapFromRequest.House != null) desiredMap.House = mapFromRequest.House;
+        if (mapFromRequest.Building != null) desiredMap.Building = mapFromRequest.Building;
+        if (mapFromRequest.Floor != null) desiredMap.Floor = mapFromRequest.Floor;
         if (mapFromRequest.Json != null) desiredMap.Json = mapFromRequest.Json;
         try
         {
@@ -153,5 +159,12 @@ public class MapsController:Controller
         }
     }
 
-    public record MapForRequest(string? City, string? Street, string? House, bool? IsMap, string? Json);
+    public record MapForRequest(
+        string? City,
+        string? Street,
+        string? House,
+        string? Building, 
+        string? Floor,
+        bool? IsMap, 
+        string? Json);
 }
