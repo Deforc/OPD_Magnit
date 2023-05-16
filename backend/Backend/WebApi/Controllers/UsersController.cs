@@ -18,10 +18,7 @@ public class UsersController : Controller
 {
     private ApplicationDbContext _context { get; set; }
 
-    /*public UsersController(ApplicationDbContext context)
-    {
-        _context = context;
-    }*/
+    
     public IPasswordHasher<IdentityUser> _hasher { get; set; }
 
     public UsersController(ApplicationDbContext context, IPasswordHasher<IdentityUser> hasher)
@@ -34,7 +31,7 @@ public class UsersController : Controller
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    // [Route("Users")]
+   
     public IActionResult GetUsers()
     {
         var list =
@@ -67,13 +64,13 @@ public class UsersController : Controller
 
 
     [HttpDelete]
-    //[Route("DeleteUser")]
+    
     public IActionResult Delete(string name)
     {
         var user = _context.Users.Find(name);
         if (user == null)
         {
-            return BadRequest("такого пидораса нет");
+            return BadRequest(new { Message = "Такого пользователя не существует" });
         }
         else
         {
@@ -90,18 +87,14 @@ public class UsersController : Controller
         string? Role,
         string? Id);
     [HttpPost]
-    //[Route("NewUser")]
+    
     public IActionResult Post(
-        /*[From] string? firstname, 
-        [FromBody] string? lastname, 
-        [FromBody] string? password, 
-        [FromBody] string? Role, 
-        [FromBody] string? id*/
+        
         [FromBody] CreateUserData requestBody
         )
     {
         var role = _context.Roles.FirstOrDefault(u => u.Id == null);
-        //if (Role == null) return BadRequest(new { Message = "Не указана роль пользователя" });
+        
         role = _context.Roles.FirstOrDefault(u => u.Id == requestBody.Role);
         _context.SaveChanges();
 
@@ -109,7 +102,7 @@ public class UsersController : Controller
         var user = _context.Users.FirstOrDefault(u => u.UserName == requestBody.Id);
         if (requestBody.Firstname == null || requestBody.Password == null || requestBody.Lastname == null)
         {
-            return BadRequest(new { Message = "не введен пользователь, уебан" });
+            return BadRequest(new { Message = "Отсутствуют данные пользователя" });
         }
         else
         {
@@ -133,7 +126,7 @@ public class UsersController : Controller
             _context.SaveChanges();
         }
 
-        return Ok(new { Message = "Хотя долбоеб, но смог правильно пользовавтеля добавить" });
+        return Ok(new { Message = "Пользователь добавлен успешно" });
     }
 
     [HttpPatch]
@@ -143,7 +136,7 @@ public class UsersController : Controller
         var user = _context.Users.Find(firstname);
         if (user == null)
         {
-            return BadRequest(new { Message = "такого пидораса нет" });
+            return BadRequest(new { Message = "Такого пользователя не существует" });
         }
 
         if (newfirstname != null)
@@ -164,6 +157,6 @@ public class UsersController : Controller
             _context.SaveChanges();
         }
 
-        return Ok(new { Message = "Хотя долбоеб, но смог правильно пользовавтеля изменить" });
+        return Ok(new { Message = "Данные пользователя успешно изменены" });
     }
 }

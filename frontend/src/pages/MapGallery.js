@@ -10,7 +10,8 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
 const MapGallery = () => {
-    const [filter, setFilter] = useState({'city': 'красноярск', 'street': '', 'house':'', 'building':'', 'floor':''});
+    const [filter, setFilter] = useState({'city': '' +
+            'красноярск', 'street': '', 'house':'', 'building':'', 'floor':''});
     const [dataArrayRef, setDataArrayRef] = useState([ {'city': 'красноярск', 'street': 'ул. Солнечная', 'house':'15', 'building':'5', 'floor':'6'},  {'city': 'красноярск', 'street': 'ул. Солнечная', 'house':'15', 'building':'5', 'floor':'5'}]);
     const [filtredData, setFilterData] = useState([]);
     const [cites, setCitesData] = useState([]);
@@ -19,8 +20,8 @@ const MapGallery = () => {
     const [buildings, setBuildingsData] = useState([]);
     const [floors, setFloorsData] = useState([]);
 
+    let navigate = useNavigate();
     useEffect( async () => {
-       let navigate = useNavigate();
         await axios.get("http://localhost:3001/maps",
             {
                 headers: {

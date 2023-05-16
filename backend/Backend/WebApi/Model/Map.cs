@@ -11,6 +11,8 @@ public class Map
     public string City { get; set; }
     public string Street { get; set; }
     public string House { get; set; }
+    public string Building { get; set; } 
+    public string Floor { get; set; }
     public bool IsMap { get; set; }
 
     [Column("Map", TypeName = "json")] public string Json { get; set; } = "[]";
