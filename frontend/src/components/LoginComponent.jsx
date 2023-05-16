@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import MajorButton from "./UI/buttons/major_button/MajorButton";
 import TextInput from "./UI/inputs/text_input/TextInput";
 import PasswordInput from "./UI/inputs/password_input/PasswordInput";
+import CheckmarkCheckbox from "./UI/checkboxes/checkmark_checkbox/CheckmarkCheckbox";
 import axios from "axios";
 import MessageWindow from "./UI/modals/message_window/MessageWindow";
 import "../styles/LoginForm.css"
@@ -12,6 +13,7 @@ import {decode as base64_decode, encode as base64_encode} from 'base-64';
 const LoginComponent = (props) => {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
+    const [isAdmin, setIsAdmin] = useState(false);
 
     const [showError, setError] = useState(false);
     const [errorLabel, setLabel] = useState('');
@@ -106,6 +108,10 @@ const LoginComponent = (props) => {
 
     function changePassword(new_password){
         setPassword(new_password);
+    }
+
+    function toggleIsAdmin(new_value){
+        setIsAdmin(new_value);
     }
 
     return (
