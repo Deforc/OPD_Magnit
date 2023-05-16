@@ -1,0 +1,21 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100%;
+    overflow: hidden
+}
+
+.map-view-base {
+    width: 100%;
+    min-height: 100vh;
+    background: white;
+}
+
+.map-view-content {
+    width: 800px;
+    min-height: 500px;
+    background: #c4403f;
+}

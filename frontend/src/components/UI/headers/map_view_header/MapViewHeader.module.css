@@ -1,0 +1,63 @@
+.mapViewHeader {
+    display: flex;
+    height: 40px;
+    width: 100%;
+    align-items: center;
+    background: #ececec;
+    position:fixed;
+    z-index: 999;
+    box-shadow: 0 2px 2px rgba(0,0,0,0.15);
+}
+
+.mapViewHeader button {
+    max-width: 30px;
+    width: 30px;
+    height: 30px;
+    max-height: 30px;
+    font-size: 15px;
+}
+
+.backIcon {
+    transform: scale(1.4);
+    stroke-width: 1.4ex;
+    stroke: rgb(143, 143, 143);
+}
+
+.exitIcon {
+    transform: scale(1.3);
+    stroke-width: 1.6ex;
+    stroke: rgb(143, 143, 143);
+}
+
+.mapViewHeader button:hover .backIcon{
+    transition: 0.5s;
+    color: #333333;
+    stroke: #333333;
+}
+
+.mapViewHeader button:hover .exitIcon{
+    transition: 0.5s;
+    color: #333333;
+    stroke: #333333;
+}
+
+.backButtons {
+    margin-left: 5px;
+}
+
+.controlButtons {
+    display: flex;
+    margin-left: auto;
+    margin-right: 8px;
+}
+
+.mapViewHeader h1
+{
+    align-items: center;
+    margin-left: 8px;
+    color: gray;
+    font-family: 'Golos Text', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    height: min-content;
+}
