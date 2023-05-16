@@ -23,6 +23,6 @@ public class MapUser
     public int MapId { get; set; }
     public string IdentityUserId { get; set; }
     
-    public Map Map { get; set; }
-    public IdentityUser User { get; set; }
+    //public Map Map { get; set; }
+    //public IdentityUser User { get; set; }
 }
