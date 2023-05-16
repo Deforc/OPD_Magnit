@@ -25,7 +25,7 @@ const MapGallery = () => {
                     'Authorization': ' Bearer ' + localStorage.getItem("token")
                 }
             }).then((response) => {
-                console.log(response)
+                setDataArrayRef(response.data);
         }).catch(function (error) {
             console.log(error)
         });
