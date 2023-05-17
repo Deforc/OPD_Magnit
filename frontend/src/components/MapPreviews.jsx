@@ -1,9 +1,41 @@
-import React from 'react';
+import React, {useState} from 'react';
 import AdditionalButton from "./UI/buttons/additional_button/AdditionalButton";
 import {FaPen, FaTrash} from "react-icons/fa";
 import StarCheckbox from "./UI/checkboxes/star_checkbox/StarCheckbox";
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const MapPreviews = (props) => {
+
+    const [id, setId ] = useState(props.id);
+
+    let navigate = useNavigate();
+    function removeMap(){
+
+        try {
+             axios.delete(`http://localhost:3001/objects/${id}`, {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem("token")
+                }
+            });
+            console.log('Объект успешно удален');
+
+        } catch (error) {
+            if (error.response && error.response.status === 400) {
+                console.log('Ошибка авторизации',
+                    'Пользователь с такими логином и паролем не найден.\r\n' +
+                    'Проверьте корректность введенных данных.');
+            } else if (error.response && error.response.status === 404) {
+                console.log('Ошибка 404. Объект не найден.');
+            } else if (error.response && error.response.status === 403) {
+                console.log('Доступ запрещен.');
+                navigate("/");
+            } else {
+                console.log('Произошла ошибка при выполнении запроса.');
+            }
+        }
+    }
+
     return (
         <div className="map-info-content">
             <div className="map-info-label">
@@ -15,7 +47,7 @@ const MapPreviews = (props) => {
             </div>
             <div className="map-info-buttons">
                 <AdditionalButton><FaPen/></AdditionalButton>
-                <AdditionalButton><FaTrash/></AdditionalButton>
+                <AdditionalButton onclick = {removeMap}><FaTrash/></AdditionalButton> //онклик удаление
                 <StarCheckbox></StarCheckbox>
             </div>
         </div>

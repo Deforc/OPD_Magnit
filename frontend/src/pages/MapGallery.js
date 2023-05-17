@@ -142,6 +142,7 @@ return (
             {
                 filtredData.map((item) => (
                 <MapPreviews
+                id={item.id}
                 city={item.city}
                 street={item.street}
                 house={item.house}
