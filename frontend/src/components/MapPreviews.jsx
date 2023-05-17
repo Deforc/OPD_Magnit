@@ -43,7 +43,7 @@ const MapPreviews = (props) => {
                 <label>{props.floor} этаж</label>
             </div>
             <div className="map-info-buttons">
-                {(localStorage.getItem("access") === "admin") ? <AdditionalButton action={() => {navigate("/map");}}><FaPen/></AdditionalButton> : ''}
+                {(localStorage.getItem("access") === "admin") ? <AdditionalButton><FaPen/></AdditionalButton> : ''}
                 {/*(localStorage.getItem("access") === "admin") ? <AdditionalButton onСlick={removeMap}><FaTrash/></AdditionalButton> : ''*/}
                 <StarCheckbox></StarCheckbox>
             </div>

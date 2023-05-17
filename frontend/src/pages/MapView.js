@@ -6,7 +6,7 @@ import Map from "../components/Map";
 
 const MapView = () => {
 
-    const map = '{"external_ip": "Test1", "background": "./../img/test.png", "markers": [{"id": 1, "icon": "icon", "position": {"x": 180, "y": 240}, "text_fields": [{"label": "Label", "content": "Test text", "id": "1"}]}, {"id": 2, "icon": "icon", "position": {"x": 500, "y": 360}, "text_fields": [{"label": "Label", "content": "Test text", "id": "1"}]}], "objects": [{"points": [{"x": 120, "y": 220}, {"x": 220, "y": 250}, {"x": 170, "y": 340}], "linked_marker_id": 1}], "walls": [{"points": [{"x": 50, "y": 50}, {"x": "50", "y": 300}]}]}';
+    const map = '{"external_ip": "Test1", "background": "./../img/test.png", "markers": [{"id": 1, "icon": "icon", "position": {"x": 180, "y": 240}, "text_fields": [{"label": "Тип метки: ", "content": "Сотрудник", "id": "1"}, {"label": "ФИО: ", "content": "Иванов Иван Иванович", "id": "1"}, {"label": "Часы работы: ", "content": "10:00 - 18:00", "id": "1"}]}, {"id": 2, "icon": "icon", "position": {"x": 500, "y": 360}, "text_fields": [{"label": "Тип метки", "content": "Банкомат", "id": "1"}, {"label": "Банк:", "content": "Сбербанк", "id": "1"}]}], "objects": [{"points": [{"x": 120, "y": 220}, {"x": 220, "y": 250}, {"x": 170, "y": 340}], "linked_marker_id": 1}], "walls": [{"points": [{"x": 50, "y": 50}, {"x": "50", "y": 300}]}]}';
 
     const [translate, setTranslate] = useState({
         x: 0,
