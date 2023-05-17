@@ -10,7 +10,7 @@ import {FaUserAlt} from "react-icons/fa";
 import {useNavigate} from "react-router-dom";
 import {decode as base64_decode, encode as base64_encode} from 'base-64';
 
-const LoginComponent = () => {
+const LoginComponent = (props) => {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
@@ -28,7 +28,7 @@ const LoginComponent = () => {
         }
         else {
             await axios.post("http://localhost:3001/api/token",
-                ('grant_type='+'password'+'&'+'scope='+(isAdmin ? 'Admin' : '')+'&'+'username='+login+'&'+'password='+password),
+                ('grant_type='+'password'+'&'+'scope='+''+'&'+'username='+login+'&'+'password='+password),
                 {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -127,8 +127,6 @@ const LoginComponent = () => {
                                                            get_value={changePassword}></PasswordInput>
                 {!isValid && password === '' && <label>Введите пароль</label>}
             </div>
-{            <div className="remember-me"><CheckmarkCheckbox label={'Зайти как администратор'}
-                                                            get_value={toggleIsAdmin}></CheckmarkCheckbox></div>}
             <div className="log-in-button"><MajorButton action={sendLoginRequest}>Войти</MajorButton>
                 {(showError === true) && <MessageWindow label={errorLabel} close={hideError}>
                     {errorText}</MessageWindow>}</div>
