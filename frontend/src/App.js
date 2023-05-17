@@ -10,7 +10,6 @@ function App() {
   function setTokenValue(token) {
       setToken(token)
       localStorage.setItem("token", token);
-      console.log(token)
   }
 
   return (

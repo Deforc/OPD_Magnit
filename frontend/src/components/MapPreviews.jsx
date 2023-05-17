@@ -11,34 +11,31 @@ const MapPreviews = (props) => {
 
     let navigate = useNavigate();
     function removeMap(){
-
-        try {
-             axios.delete(`http://localhost:3001/objects/${id}`, {
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem("token")
-                }
-            });
-            console.log('Объект успешно удален');
-
-        } catch (error) {
-            if (error.response && error.response.status === 400) {
-                console.log('Ошибка авторизации',
-                    'Пользователь с такими логином и паролем не найден.\r\n' +
-                    'Проверьте корректность введенных данных.');
-            } else if (error.response && error.response.status === 404) {
-                console.log('Ошибка 404. Объект не найден.');
-            } else if (error.response && error.response.status === 403) {
-                console.log('Доступ запрещен.');
-                navigate("/");
-            } else {
-                console.log('Произошла ошибка при выполнении запроса.');
-            }
+        axios.delete(`http://localhost:3001/maps/${id}`, {
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem("token")
         }
+        }).then((response) => {
+        console.log('Объект успешно удален');
+        }).catch(function (error) {
+         if (error.response && error.response.status === 400) {
+             console.log('Ошибка авторизации',
+                 'Пользователь с такими логином и паролем не найден.\r\n' +
+                 'Проверьте корректность введенных данных.');
+         } else if (error.response && error.response.status === 404) {
+             console.log('Ошибка 404. Объект не найден.');
+         } else if (error.response && error.response.status === 403) {
+             console.log('Доступ запрещен.');
+             navigate("/");
+         } else {
+             console.log('Произошла ошибка при выполнении запроса.');
+         }
+        });
     }
 
     return (
-        <div className="map-info-content" onClick={() => {navigate("/map");}}>
-            <div className="map-info-label">
+        <div className="map-info-content">
+            <div onClick={() => {navigate("/map");}} className="map-info-label">
                 <label>{props.city}, </label>
                 <label>{props.street} </label>
                 <label>{props.house}/</label>
@@ -47,7 +44,7 @@ const MapPreviews = (props) => {
             </div>
             <div className="map-info-buttons">
                 <AdditionalButton><FaPen/></AdditionalButton>
-                <AdditionalButton onclick = {removeMap}><FaTrash/></AdditionalButton> //онклик удаление
+                <AdditionalButton onСlick={removeMap}><FaTrash/></AdditionalButton>
                 <StarCheckbox></StarCheckbox>
             </div>
         </div>

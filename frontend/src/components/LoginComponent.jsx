@@ -40,7 +40,6 @@ const LoginComponent = (props) => {
                     navigate("/map_gallery")
                 }
             }).catch(function (error) {
-                console.log("Test");
                 if (error.request.status === 200){
                     props.setToken(error.request.data.access_token);
                     localStorage.setItem("access", 'admin');
