@@ -16,8 +16,8 @@ function App() {
   return (
       <div className="App">
           <Routes>
-              <Route path="/" element={ <LoginForm/> } />
-              <Route path="map_gallery" element={ <MapGallery/> } />
+              <Route path="/" element={ <LoginForm setToken={setTokenValue}/> } />
+              <Route path="map_gallery" element={ <MapGallery setToken={setTokenValue} token={token}/> } />
               <Route path={"/map"} element={ <MapView/> }></Route>
           </Routes>
       </div>

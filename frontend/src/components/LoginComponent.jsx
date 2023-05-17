@@ -13,7 +13,6 @@ import {decode as base64_decode, encode as base64_encode} from 'base-64';
 const LoginComponent = (props) => {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
-    const [isAdmin, setIsAdmin] = useState(false);
 
     const [showError, setError] = useState(false);
     const [errorLabel, setLabel] = useState('');
@@ -28,7 +27,7 @@ const LoginComponent = (props) => {
         }
         else {
             await axios.post("http://localhost:3001/api/token",
-                ('grant_type='+'password'+'&'+'scope='+''+'&'+'username='+login+'&'+'password='+password),
+                ('grant_type='+'password'+'&'+'scope='+'Admin'+'&'+'username='+login+'&'+'password='+password),
                 {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -37,18 +36,19 @@ const LoginComponent = (props) => {
             }).then((response) => {
                 if (response.status === 200){
                     props.setToken(response.data.access_token);
-                    localStorage.setItem("access", 'user');
+                    localStorage.setItem("access", 'admin');
                     navigate("/map_gallery")
                 }
             }).catch(function (error) {
+                console.log("Test");
                 if (error.request.status === 200){
                     props.setToken(error.request.data.access_token);
-                    localStorage.setItem("access", 'user');
+                    localStorage.setItem("access", 'admin');
                     navigate("/map_gallery");
                 }
                 if (error.request.status === 401) {
                     axios.post("http://localhost:3001/api/token",
-                        ('grant_type=' + 'password' + '&' + 'scope=' + 'Admin' + '&' + 'username=' + login + '&' + 'password=' + password),
+                        ('grant_type=' + 'password' + '&' + 'scope=' + '' + '&' + 'username=' + login + '&' + 'password=' + password),
                         {
                             headers: {
                                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -56,13 +56,14 @@ const LoginComponent = (props) => {
                             }
                         }).then((response) => {
                         if (response.status === 200) {
-                            localStorage.setItem("access", 'admin');
-                            console.log(response.data);
+                            props.setToken(response.data.access_token);
+                            localStorage.setItem("access", 'user');
+                            navigate("/map_gallery")
                         }
                     }).catch(function (error) {
                         if (error.request.status === 200) {
                             props.setToken(error.request.data.access_token);
-                            localStorage.setItem("access", 'admin');
+                            localStorage.setItem("access", 'user');
                             navigate("/map_gallery")
                         }
                         if (error.request.status === 400) {
@@ -77,7 +78,6 @@ const LoginComponent = (props) => {
                     });
                 }
                 if (error.request.status === 400){
-                    console.log(error.request.body);
                     sentError('Ошибка авторизации',
                         'Пользователь с такими логином и паролем не найден.\r\n' +
                         'Проверьте корректность введенных данных.');
@@ -108,10 +108,6 @@ const LoginComponent = (props) => {
 
     function changePassword(new_password){
         setPassword(new_password);
-    }
-
-    function toggleIsAdmin(new_value){
-        setIsAdmin(new_value);
     }
 
     return (
