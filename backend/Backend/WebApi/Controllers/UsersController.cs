@@ -130,7 +130,7 @@ public class UsersController : Controller
     }
 
     [HttpPatch]
-    public IActionResult Patch(string firstname, string? lastname, string password, string? Role, string? newfirstname,
+    public IActionResult Patch(string firstname, string? lastname, string password,  string? newfirstname,
         string? newpassword, string? newlastname, string? id)
     {
         var user = _context.Users.Find(firstname);
