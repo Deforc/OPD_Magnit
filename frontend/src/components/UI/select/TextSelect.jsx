@@ -10,7 +10,7 @@ const TextSelect = (props) => {
             <label>{props.children}</label>
             <select onFocus={() => setFocus(true)}
                     onBlur={() => setFocus(false)}
-                    onChange={props.onChange}>
+                    onChange={e => props.onChange(e.target.value)}>
                 <option value="">{props.defaultValue}</option>
                 {props.options.map(option =>
                     <option value={option.value}>

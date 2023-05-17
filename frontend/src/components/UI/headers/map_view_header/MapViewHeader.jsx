@@ -13,10 +13,10 @@ const MapViewHeader = (props) => {
             <div className={classes.backButtons}>
                 <AdditionalButton onClick={() => navigate("/map_gallery")}><FaAngleLeft className={classes.backIcon}/></AdditionalButton>
             </div>
-            <h1>City, Street Home/Building, Floor</h1>
+            <h1>Астрахань, ул. Болтвина 10, 2 этаж</h1>
             <div className={classes.controlButtons}>
-                <AdditionalButton><FaPen/></AdditionalButton>
-                <AdditionalButton onClick={() => navigate("/map_gallery")}><FaTrash/></AdditionalButton>
+                {/*<AdditionalButton><FaPen/></AdditionalButton>*/}
+                {/*<AdditionalButton onClick={() => navigate("/map_gallery")}><FaTrash/></AdditionalButton>*/}
                 <AdditionalButton onClick={() => navigate("/")}><IoMdExit className={classes.exitIcon}/></AdditionalButton>
             </div>
         </div>

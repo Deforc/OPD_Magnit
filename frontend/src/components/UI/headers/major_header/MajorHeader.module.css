@@ -66,10 +66,19 @@
 
 .modalButtons {
     display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
 }
 
+.modalButtons button{
+    width: 40%;
+    height: 40px;
+    margin-left: auto;
+    margin-right: auto;
+}
 .modalStateBlock {
-    margin-right: 20px;
+    margin-right: 0;
     display: block;
 }
 

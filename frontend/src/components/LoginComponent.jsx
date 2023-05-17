@@ -37,6 +37,19 @@ const LoginComponent = (props) => {
                 if (response.status === 200){
                     props.setToken(response.data.access_token);
                     localStorage.setItem("access", 'admin');
+                    axios.get("http://localhost:3001/users",
+                        {
+                            headers: {
+                                'Authorization': ' Bearer ' + localStorage.getItem("token")
+                            }
+                        }).then((response) => {
+                            const found =response.data.find(element => element.id === login);
+                            localStorage.setItem("user", JSON.stringify(
+                                {login: login, password: password,
+                                    first_name: found.firstname, last_name: found.lastname}));
+                        }).catch((error) => {
+                            console.log(error);
+                    });
                     navigate("/map_gallery")
                 }
             }).catch(function (error) {
@@ -112,7 +125,7 @@ const LoginComponent = (props) => {
     return (
         <div className="log-in">
             <h1>Авторизоваться</h1>
-            <div className="login-input"><TextInput label={'Введите логин:'} example={'Login'}
+            <div className="login-input"><TextInput startValue={""} label={'Введите логин:'} example={'Login'}
                                                     isValid={!isValid && login === ''} get_value={changeLogin}
                                                     icon={<FaUserAlt/>}></TextInput>
                 {!isValid && login === '' && <label>Введите логин</label>}

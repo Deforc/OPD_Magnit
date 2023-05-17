@@ -38,13 +38,13 @@ const MapPreviews = (props) => {
             <div onClick={() => {navigate("/map");}} className="map-info-label">
                 <label>{props.city}, </label>
                 <label>{props.street} </label>
-                <label>{props.house}/</label>
-                <label>{props.building}, </label>
+                <label>{props.house}</label>
+                <label>{props.building === '' ? '' : '/' + props.building}, </label>
                 <label>{props.floor} этаж</label>
             </div>
             <div className="map-info-buttons">
-                <AdditionalButton><FaPen/></AdditionalButton>
-                <AdditionalButton onСlick={removeMap}><FaTrash/></AdditionalButton>
+                {(localStorage.getItem("access") === "admin") ? <AdditionalButton action={() => {navigate("/map");}}><FaPen/></AdditionalButton> : ''}
+                {/*(localStorage.getItem("access") === "admin") ? <AdditionalButton onСlick={removeMap}><FaTrash/></AdditionalButton> : ''*/}
                 <StarCheckbox></StarCheckbox>
             </div>
         </div>

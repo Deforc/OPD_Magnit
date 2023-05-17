@@ -12,7 +12,14 @@ import {useNavigate} from "react-router-dom";
 const MapGallery = () => {
     const [filter, setFilter] = useState(
         {'city': '' + '', 'street': '', 'house':'', 'building':'', 'floor':''});
-    const [dataArrayRef, setDataArrayRef] = useState([]);
+    const [dataArrayRef, setDataArrayRef] = useState([
+        {city: 'Астрахань', street: 'ул. Болтвина', house: '10', building: '', floor: '2'},
+        {city: 'Калуга', street: 'ул. Никитина', house: '41', building: '2', floor: '1'},
+        {city: 'Краснодар', street: 'ул. Солнечная', house: '15', building: '5', floor: '5'},
+        {city: 'Краснодар', street: 'ул. Солнечная', house: '15', building: '5', floor: '6'},
+        {city: 'Санкт-Петербург', street: 'Ленинский пр-т', house: '127', building: '', floor: '2'},
+        {city: 'Тюмень', street: 'ул. Гастелло', house: '78', building: '', floor: '3'}
+    ]);
     const [filtredData, setFilterData] = useState([]);
     const [cites, setCitesData] = useState([]);
     const [streets, setStreetsData] = useState([]);
@@ -21,7 +28,7 @@ const MapGallery = () => {
     const [floors, setFloorsData] = useState([]);
 
     let navigate = useNavigate();
-    useEffect(() => {
+    /*useEffect(() => {
         axios.get("http://localhost:3001/maps",
             {
                 headers: {
@@ -55,9 +62,10 @@ const MapGallery = () => {
                 navigate("/")
             }
         });
-    }, []);
+    }, []);*/
 
     useEffect(() => {
+        filterData();
         for (let i = 0; i < dataArrayRef.length; i++) {
             const obj = dataArrayRef[i];
             if (!(cites.find(e => e.name === obj.city))) cites.push({'value': obj.city, 'name': obj.city});
@@ -69,7 +77,6 @@ const MapGallery = () => {
             });
             if (!(floors.find(e => e.name === obj.floor))) floors.push({'value': obj.floor, 'name': obj.floor});
         }
-        filterData();
     }, [filter])
     function filterData(){
         setFilterData(dataArrayRef.filter(item => ((item.city === filter.city)||(filter.city===''))
@@ -107,12 +114,13 @@ return (
     <div className="map-gallery-container">
         <MajorHeader className="map-gallery-header"></MajorHeader>
         <h1>Доступные карты
-            <div className="help-button">
-                <AdditionalButton><FaQuestionCircle className="help-icon"/></AdditionalButton>
-            </div>
+            {//<div className="help-button">
+             //   <AdditionalButton><FaQuestionCircle className="help-icon"/></AdditionalButton>
+             //</div>
+            }
         </h1>
         <div className="map-options">
-            <TextInput label={"Адрес"} example={"Поиск"} icon={<FaSearch/>}></TextInput>
+            {/*<TextInput label={"Адрес"} example={"Поиск"} icon={<FaSearch/>}></TextInput>*/}
             <div className="map-filter-list">
                 <div className="city-filter">
                     <TextSelect onChange={changeCity} options={cites}>Город</TextSelect>
@@ -131,13 +139,14 @@ return (
                 </div>
             </div>
         </div>
-        <div style={{display: 'flex', alignItems: 'center', marginLeft: '40px'}}>
-            <div className="new-map-button">
-                <AdditionalButton><FaPlus/>
-                    <label className="new-map-label">Создать новую карту</label>
-                </AdditionalButton>
-            </div>
-        </div>
+        {(localStorage.getItem("access") === "admin") ?
+            <div style={{display: 'flex', alignItems: 'center', marginLeft: '40px'}}>
+                <div className="new-map-button">
+                    <AdditionalButton><FaPlus/>
+                        <label className="new-map-label">Создать новую карту</label>
+                    </AdditionalButton>
+                </div>
+            </div> : ''}
         <div>
             {
                 filtredData.map((item) => (

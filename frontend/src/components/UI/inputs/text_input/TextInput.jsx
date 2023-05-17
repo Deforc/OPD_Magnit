@@ -3,7 +3,7 @@ import classes from "./TextInput.module.css";
 import {RxCross1} from "react-icons/rx";
 
 const TextInput = (props) => {
-    const [value, setValue] = useState("");
+    const [value, setValue] = useState(props.startValue);
     const [inputFocus, setFocus] = useState(false);
     const styles = [classes.textInput, props.isValid && classes.noValid, inputFocus && classes.focus];
 
