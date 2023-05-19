@@ -26,16 +26,18 @@ const MapPreviews = (props) => {
              console.log('Ошибка 404. Объект не найден.');
          } else if (error.response && error.response.status === 403) {
              console.log('Доступ запрещен.');
-             navigate("/");
          } else {
              console.log('Произошла ошибка при выполнении запроса.');
          }
+            navigate("/");
         });
     }
 
     return (
         <div className="map-info-content">
-            <div onClick={() => {navigate("/map");}} className="map-info-label">
+            <div onClick={() => {navigate("/map");
+                localStorage.setItem("map_id", id.toString());
+            }} className="map-info-label">
                 <label>{props.city}, </label>
                 <label>{props.street} </label>
                 <label>{props.house}</label>
@@ -45,7 +47,7 @@ const MapPreviews = (props) => {
             <div className="map-info-buttons">
                 {(localStorage.getItem("access") === "admin") ? <AdditionalButton><FaPen/></AdditionalButton> : ''}
                 {/*(localStorage.getItem("access") === "admin") ? <AdditionalButton onСlick={removeMap}><FaTrash/></AdditionalButton> : ''*/}
-                <StarCheckbox></StarCheckbox>
+                {/*<StarCheckbox value={props.isFavorite} onChange={props.onChange}></StarCheckbox>*/}
             </div>
         </div>
     );

@@ -19,4 +19,9 @@
     color: #333333;
     background: rgba(190, 190, 190, 0.44);
     transition: 0.5s;
+    font-size: 15px;
+}
+
+.additionalButton:active {
+    transform: scale(0.95);
 }

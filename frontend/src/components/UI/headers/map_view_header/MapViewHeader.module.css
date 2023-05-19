@@ -60,4 +60,5 @@
     font-weight: 600;
     font-size: 18px;
     height: min-content;
+    user-select: none;
 }

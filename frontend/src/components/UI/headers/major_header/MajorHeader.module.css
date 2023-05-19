@@ -12,6 +12,7 @@
 .logo {
     margin: 15px auto 15px 15px;
     height: 50%;
+    user-select: none;
 }
 
 .icon {
@@ -41,7 +42,6 @@
     width: min-content;
     top: 80px;
     right: 0;
-
 }
 
 .modalHeader {
@@ -86,4 +86,12 @@
     stroke-width: 0.8ex;
     outline: none;
     border: none;
+}
+
+.newUser button:hover {
+    font-size: 15px;
+}
+
+.newUser button:active {
+    transform: scale(0.95);
 }

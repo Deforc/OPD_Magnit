@@ -6,6 +6,7 @@
 body {
     background: #f1f1f1;
     height: 100%;
+    user-select: none;
 }
 
 html {
@@ -30,6 +31,7 @@ html {
     color: #fd0600;
     font-family: 'Golos Text', sans-serif;
     display: flex;
+    user-select: none;
 }
 
 .map-options {
@@ -156,4 +158,54 @@ html {
     color: gray;
     width: 20px;
     height: 20px;
+}
+
+.map-list label{
+    user-select: none;
+}
+
+h2{
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    color: #fd0600;
+    font-family: 'Golos Text', sans-serif;
+    display: flex;
+    user-select: none;
+}
+
+.drop-area{
+    margin: 5px 5px 20px;
+    height: 60px;
+    border: 3px dashed #fd0600;
+    font-family: 'Golos Text', sans-serif;
+    font-weight: 400;
+    color: #fd0600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.drop-label {
+    display: flex;
+    margin-top: 10px;
+    margin-left: 14px;
+    font-size: 10px;
+    font-family: 'Golos Text', sans-serif;
+    font-weight: 600;
+    color: gray;
+    user-select: none;
+    pointer-events: none;
+}
+
+.add-new-map-button button{
+    height: 40px;
+}
+
+.add-new-map-button button:hover{
+    font-size: 15px;
+}
+
+.add-new-map-button button:active{
+    transform: scale(0.95);
 }

@@ -37,27 +37,22 @@ const LoginComponent = (props) => {
                 if (response.status === 200){
                     props.setToken(response.data.access_token);
                     localStorage.setItem("access", 'admin');
-                    axios.get("http://localhost:3001/users",
-                        {
-                            headers: {
-                                'Authorization': ' Bearer ' + localStorage.getItem("token")
-                            }
-                        }).then((response) => {
-                            const found =response.data.find(element => element.id === login);
-                            localStorage.setItem("user", JSON.stringify(
-                                {login: login, password: password,
-                                    first_name: found.firstname, last_name: found.lastname}));
-                        }).catch((error) => {
-                            console.log(error);
-                    });
+                    // axios.get("http://localhost:3001/users",
+                    //     {
+                    //         headers: {
+                    //             'Authorization': ' Bearer ' + localStorage.getItem("token")
+                    //         }
+                    //     }).then((response) => {
+                    //         const found = response.data.find(element => element.id === login);
+                    //         localStorage.setItem("user", JSON.stringify(
+                    //             {login: found.login, password: found.password,
+                    //                 first_name: found.firstname, last_name: found.lastname}));
+                    //     }).catch((error) => {
+                    //         console.log(error);
+                    // });
                     navigate("/map_gallery")
                 }
             }).catch(function (error) {
-                if (error.request.status === 200){
-                    props.setToken(error.request.data.access_token);
-                    localStorage.setItem("access", 'admin');
-                    navigate("/map_gallery");
-                }
                 if (error.request.status === 401) {
                     axios.post("http://localhost:3001/api/token",
                         ('grant_type=' + 'password' + '&' + 'scope=' + '' + '&' + 'username=' + login + '&' + 'password=' + password),
@@ -70,14 +65,21 @@ const LoginComponent = (props) => {
                         if (response.status === 200) {
                             props.setToken(response.data.access_token);
                             localStorage.setItem("access", 'user');
+                            // axios.get("http://localhost:3001/users",
+                            //     {
+                            //         headers: {
+                            //             'Authorization': ' Bearer ' + localStorage.getItem("token")
+                            //         }
+                            //     }).then((response) => {
+                            //     const found = response.data.find(element => element.id === login);
+                            //     localStorage.setItem("user", JSON.stringify(
+                            //         {login: login, password: password, first_name: found.firstname, last_name: found.lastname}));
+                            // }).catch((error) => {
+                            //     console.log(error);
+                            // });
                             navigate("/map_gallery")
                         }
                     }).catch(function (error) {
-                        if (error.request.status === 200) {
-                            props.setToken(error.request.data.access_token);
-                            localStorage.setItem("access", 'user');
-                            navigate("/map_gallery")
-                        }
                         if (error.request.status === 400) {
                             sentError('Ошибка авторизации',
                                 'Пользователь с такими логином и паролем не найден.\r\n' +

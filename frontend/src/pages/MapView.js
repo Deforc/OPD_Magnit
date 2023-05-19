@@ -1,12 +1,32 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import "../styles/MapView.css"
 import DragMove from "../components/DragMove";
 import MapViewHeader from "../components/UI/headers/map_view_header/MapViewHeader";
 import Map from "../components/Map";
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const MapView = () => {
+    const navigate = useNavigate();
+    const [data, setData] = useState({});
+    const [map, setMap] = useState();
 
-    const map = '{"external_ip": "Test1", "background": "./../img/test.png", "markers": [{"id": 1, "icon": "icon", "position": {"x": 180, "y": 240}, "text_fields": [{"label": "Тип метки: ", "content": "Сотрудник", "id": "1"}, {"label": "ФИО: ", "content": "Иванов Иван Иванович", "id": "1"}, {"label": "Часы работы: ", "content": "10:00 - 18:00", "id": "1"}]}, {"id": 2, "icon": "icon", "position": {"x": 500, "y": 360}, "text_fields": [{"label": "Тип метки", "content": "Банкомат", "id": "1"}, {"label": "Банк:", "content": "Сбербанк", "id": "1"}]}], "objects": [{"points": [{"x": 120, "y": 220}, {"x": 220, "y": 250}, {"x": 170, "y": 340}], "linked_marker_id": 1}], "walls": [{"points": [{"x": 50, "y": 50}, {"x": "50", "y": 300}]}]}';
+    useEffect(() => {
+        axios.get("http://localhost:3001/maps/" + localStorage.getItem("map_id"),
+            {
+                headers: {
+                    'Authorization': ' Bearer ' + localStorage.getItem("token")
+                }
+            }).then((response) => {
+            setData(response.data);
+        }).catch(function (error) {
+            navigate("/map_gallery");
+        });
+    }, []);
+
+    useEffect(() => {
+        setMap(JSON.parse(data.json === undefined ? '{}' : data.json));
+    }, [data]);
 
     const [translate, setTranslate] = useState({
         x: 0,
@@ -30,7 +50,7 @@ const MapView = () => {
 
     return (
         <div className="map-view-base">
-            <MapViewHeader>Астрахань, ул. Болтвина 10 2 этаж</MapViewHeader>
+            <MapViewHeader>{data.city}, {data.street} {data.house}{data.building === '' ? '' : '/' + data.building}, {data.floor} этаж</MapViewHeader>
             <DragMove style={{width: '100%', height: '100vh',
                               display: 'flex',
                               alignItems: 'center',
@@ -48,7 +68,7 @@ const MapView = () => {
                         width: 'min-content'
                     }}
                 >
-                    <Map map={JSON.parse(map)}></Map>
+                    <Map map={map}></Map>
                 </div>
             </DragMove>
         </div>
